@@ -1,0 +1,70 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Quicksand", sans-serif;
+}
+
+
+
+
+.h-custom {
+
+
+    height: calc(100% - 69px);
+}
+
+@media (max-width: 450px) {
+    .h-custom {
+        height: 100%;
+    }
+}
+
+.img-fluid{
+    border-radius: 20px;
+       
+}
+
+#loginMHeader{
+    position:absolute;
+    padding: 15px 20px;
+   
+    background-color: rgb(87, 35, 136);
+    width: 100%;
+    color: white;
+    z-index: 1000;
+    font-weight: bold;
+    font-family: "Winky Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 30px;
+}
+
+.footer {
+    position: fixed;  /* Fixa no final da tela */
+    bottom: 0;        /* Cola na parte de baixo */
+    left: 0;
+    width: 100%;      /* Ocupa toda a largura */
+    height: 26px;     /* Define a altura desejada */
+    background-color: rgb(145, 182, 14); /* Mantém a cor de fundo */
+    display: flex;    /* Mantém a organização flexível */
+    align-items: center; /* Centraliza o conteúdo verticalmente */
+    justify-content: center; /* Centraliza o texto horizontalmente */
+    font-size: 14px;
+}
+
+.btn.btn-primary.btn-lg{
+
+    background-color:  rgb(140, 175, 13); border-color: transparent;
+
+
+}
+
+.btn.btn-primary.btn-lg:hover {
+    background-color: #088312; /* Cor de fundo ao passar o mouse */
+}
+
+.btn.btn-primary.btn-lg:active {
+    background-color: #095a10;
+}
