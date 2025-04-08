@@ -25,3 +25,5 @@ if __name__ == '__main__':
             db.create_all() # Cria o banco de dados apenas se não existir
 
     app.run(debug=True)
+
+    

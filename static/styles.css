@@ -12,6 +12,12 @@ html, body {
 }
 
 
+.home {
+
+    margin-top: 80px;
+
+}
+
 .h-custom {
     height: calc(100% - 80px);
 }
@@ -27,12 +33,13 @@ html, body {
        
 }
 
+
 header{
     position: fixed;
     top: 0;
     left: 0;
     padding: 15px 20px;
-   
+    
     background-color: rgb(87, 35, 136);
     width: 100%;
     color: white;
@@ -41,15 +48,22 @@ header{
     font-family: "Winky Sans", sans-serif;
     font-optical-sizing: auto;
     font-weight: bold;
-    font-style: normal;
+
     font-size: 30px;
 
     display: flex;
     justify-content: space-between; /* Espaço entre as divs laterais */
     align-items: center; /* Alinha os itens verticalmente */
-
+    
     width: 100%;
     height:60px;
+}
+
+.usuarioSessao{
+    font-weight: normal;
+    margin: 0; /* Remove margens padrão */
+    padding: 0;
+    font-size: 16px; /* Ajuste opcional para melhor encaixe */
 }
 
 .footer {
@@ -81,8 +95,9 @@ header{
     margin-top: 0px;
 }
 
-.home {
-
-    margin-top: 80px;
-
+.sair{
+    font-weight: bold;
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
 }

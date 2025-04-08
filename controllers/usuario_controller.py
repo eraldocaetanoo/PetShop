@@ -64,12 +64,13 @@ def cadastrarmaster():
         db.session.add(master)
         db.session.commit()
 
-        session['tipo_usuario'] = 'master'  # <-- Isso aqui ANTES do login_use
+        session['tipo_usuario'] = 'master'  # <-- Isso aqui ANTES do login_user
         login_user(master)
         return redirect(url_for('master'))
         
 
-@app.route('/master/cadastro_usuario', methods = ['GET','POST'])
+@app.route('/master/cadastro/usuario', methods = ['GET','POST'])
+@login_required
 def cadastro_usuario():
     if request.method == 'GET':
         return render_template('/master/cadastroUsuario.html')
@@ -87,14 +88,14 @@ def cadastro_usuario():
         return redirect(url_for('cadastro_usuario'))
 
 
-@app.route('/master')
+@app.route('/master/home')
 @login_required
 def master():
     if session.get('tipo_usuario') != 'master':
         abort(403)  # Erro "Proibido"
     return render_template('master/home.html')
 
-@app.route('/usuario')
+@app.route('/usuario/home')
 @login_required
 def usuario():
     if session.get('tipo_usuario') != 'usuario':
@@ -106,7 +107,8 @@ def usuario():
 #faltam os outros
 
 
-@app.route('/logout')
+@app.route('/logout', methods=['POST'])
+@login_required
 def logout():
     logout_user()
     session.clear()  # Limpa o tipo do usuário e dados de sessão

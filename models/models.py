@@ -19,3 +19,59 @@ class Usuario(UserMixin, db.Model):
     login = db.Column(db.String(30), unique=True, nullable=False)
     senha = db.Column(db.String(), nullable=False)
 
+class Cliente(UserMixin, db.Model):
+    __tablename__ = 'cliente'
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), nullable=False)
+    genero = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), nullable=False)
+    telefone = db.Column(db.Integer, nullable=False)
+    endereco = db.Column(db.String(100), nullable=False)
+
+class Animais(UserMixin, db.Model):
+    __tablename__ = 'animais'
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), nullable=False)
+    especie = db.Column(db.String(100), nullable=False)
+    raca = db.Column(db.String(100), nullable=False)
+    idade = db.Column(db.Integer, nullable=True) 
+    sexo = db.Column(db.String(1), nullable=False)
+    cor = db.Column(db.String(100), nullable=False)
+    peso = db.Column(db.Float, nullable=False)
+    responsavel = db.Column(db.String(100), nullable=False)
+
+class Veterinarios(UserMixin, db.Model):
+    __tablename__ = 'veterinarios'
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), nullable=False)
+    data_nascimento = db.Column(db.Date, nullable=True)
+    genero = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), nullable=False)
+    telefone = db.Column(db.Integer, nullable=False)
+    formacao = db.Column(db.String(100), nullable=False)
+    especializacao = db.Column(db.String(100), nullable=False)
+    observacoes = db.Column(db.String(100), nullable=False)
+    login = db.Column(db.String(30), unique=True, nullable=False)
+    senha = db.Column(db.String(), nullable=False)
+
+class Prontuario(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), nullable=False)
+    responsavel = db.Column(db.String(100), nullable=False)
+    servicos_realizados = db.Column(db.String(100), nullable=False)
+
+class ServicosRealizados(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    servicos_realizados = db.Column(db.String(100), nullable=False)
+    nome_animal = db.Column(db.String(100), nullable=False)
+    veterinario = db.Column(db.String(100), nullable=False)
+    data = db.Column(db.Date, nullable=True)
+    valor = db.Column(db.Float, nullable=False)
+    tipo_servico = db.Column(db.String(100), nullable=False)
+
+class tipo_servico(UserMixin, db.Model):
+    nome_servico = db.Column(db.String(100), nullable=False)
+    descricao = db.Column(db.String(100), nullable=False)
+    duracao = db.Column(db.String(100), nullable=False)
+    preco = db.Column(db.Float, nullable=False)
+    observacoes = db.Column(db.String(100), nullable=False)
