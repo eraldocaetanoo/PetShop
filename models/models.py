@@ -69,7 +69,8 @@ class ServicosRealizados(UserMixin, db.Model):
     valor = db.Column(db.Float, nullable=False)
     tipo_servico = db.Column(db.String(100), nullable=False)
 
-class tipo_servico(UserMixin, db.Model):
+class TipoServico(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
     nome_servico = db.Column(db.String(100), nullable=False)
     descricao = db.Column(db.String(100), nullable=False)
     duracao = db.Column(db.String(100), nullable=False)

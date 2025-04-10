@@ -1,103 +1,251 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Quicksand", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Quicksand", sans-serif;
 }
 
-
-html, body {
-    height: 100%;
-    min-height: 100%;
+html,
+body {
+  /*min-height: 100%;*/
+  height: 100%;
+  background-color: #f7f9ff;
+  color: #000000;
+  transition: 0.3s ease;
 }
 
+.theme-toggle {
+  padding-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+}
 
-.home {
+.theme-icon {
+  font-size: 20px;
+  transition: 0.3s;
+}
 
-    margin-top: 80px;
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 18px;
+}
 
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ffffff;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 10px;
+  width: 10px;
+  left: 4px;
+  bottom: 4px;
+
+  background-color: #000000;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #1e1e1e;
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+/* Quando o modo escuro estiver ativado */
+body.dark-mode .slider:before {
+  background-color: white; /* Muda a cor da bolinha */
+}
+
+.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+.dark-mode body {
+  background-color: #1e1e1e; /* Fundo escuro para o card */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); /* Sombra mais forte no escuro */
+}
+
+.dark-mode .footer {
+  background-color: #1f532f; /* Fundo escuro para o card */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); /* Sombra mais forte no escuro */
+}
+
+.col-md-8 {
+  background-color: rgb(187, 194, 194);
+}
+
+.dark-mode .col-md-8 {
+  background-color: rgb(48, 51, 51);
+}
+
+.input-group-text {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  background-color: #d3d3d3;
+  border-color: rgb(142, 53, 214);
+  color: #4d4d4d;
+}
+
+.form-group {
+  padding-top: 5px;
+}
+
+.form-control {
+  border-color: rgb(142, 53, 214);
+  color: #000000;
+  background-color: #ffffff;
+}
+.form-control::placeholder {
+  color: #797979;
+}
+.dark-mode .form-control {
+  background-color: #464646;
+  color: #ffffff;
+}
+
+.dark-mode .form-control::placeholder {
+  color: #b6b6b6;
+}
+.dark-mode .form-control-lg {
+  background-color: #464646;
+  color: #ffffff;
+}
+
+#divButtonEntrar,
+#divButtonCadastrar {
+  padding-top: 10px;
+  text-align: right;
+  padding-bottom: 25px;
+}
+
+.btn.btn-primary.btn-lg {
+  background-color: rgb(140, 175, 13);
+  border-color: transparent;
+}
+.btn.btn-primary.btn-lg:hover {
+  background-color: #088312; /* Cor de fundo ao passar o mouse */
+}
+.btn.btn-primary.btn-lg:active {
+  background-color: #095a10;
+}
+
+.dark-mode .btn.btn-primary.btn-lg {
+  background-color: #095a10;
+}
+
+.dark-mode .btn.btn-primary.btn-lg:active {
+  background-color: #42a34a;
+}
+
+.dark-mode .btn.btn-primary.btn-lg:hover {
+  background-color: #223f24; /* Cor de fundo ao passar o mouse */
+}
+
+.container {
+  display: grid;
+  padding-top: 80px;
+}
+
+#container2 {
+  display: flex;
+  gap: 30px;
+  justify-items: center;
+  align-items: center;
 }
 
 .h-custom {
-    height: calc(100% - 80px);
+  height: calc(100% - 80px);
 }
 
 @media (max-width: 450px) {
-    .h-custom {
-        height: 100%;
-    }
+  .h-custom {
+    height: 100%;
+  }
 }
 
-.img-fluid{
-    border-radius: 20px;
-       
+.img-fluid {
+  border-radius: 20px;
 }
 
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 15px 20px;
 
-header{
-    position: fixed;
-    top: 0;
-    left: 0;
-    padding: 15px 20px;
-    
-    background-color: rgb(87, 35, 136);
-    width: 100%;
-    color: white;
-    z-index: 1000;
-    font-weight: bold;
-    font-family: "Winky Sans", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: bold;
+  /*background-color: #572388;*/
+  background: linear-gradient(to bottom, #572388, #2c3377);
+  width: 100%;
+  color: white;
+  z-index: 1000;
+  font-weight: bold;
+  font-family: "Winky Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: bold;
 
-    font-size: 30px;
+  font-size: 30px;
 
-    display: flex;
-    justify-content: space-between; /* Espaço entre as divs laterais */
-    align-items: center; /* Alinha os itens verticalmente */
-    
-    width: 100%;
-    height:60px;
+  display: flex;
+  justify-content: space-between; /* Espaço entre as divs laterais */
+  align-items: center; /* Alinha os itens verticalmente */
+
+  width: 100%;
+  height: 60px;
 }
 
-.usuarioSessao{
-    font-weight: normal;
-    margin: 0; /* Remove margens padrão */
-    padding: 0;
-    font-size: 16px; /* Ajuste opcional para melhor encaixe */
+.usuarioSessao {
+  font-weight: normal;
+  margin: 0; /* Remove margens padrão */
+  padding: 0;
+  font-size: 15px; /* Ajuste opcional para melhor encaixe */
 }
 
 .footer {
-    position: fixed;  /* Fixa no final da tela */
-    bottom: 0;        /* Cola na parte de baixo */
-    left: 0;
-    width: 100%;      /* Ocupa toda a largura */
-    height: 26px;     /* Define a altura desejada */
-    background-color: rgb(145, 182, 14); /* Mantém a cor de fundo */
-    display: flex;    /* Mantém a organização flexível */
-    align-items: center; /* Centraliza o conteúdo verticalmente */
-    justify-content: center; /* Centraliza o texto horizontalmente */
-    font-size: 14px;
+  position: fixed; /* Fixa no final da tela */
+  bottom: 0; /* Cola na parte de baixo */
+  left: 0;
+  width: 100%; /* Ocupa toda a largura */
+  height: 26px; /* Define a altura desejada */
+  background-color: #91b60e; /* Mantém a cor de fundo */
+  display: flex; /* Mantém a organização flexível */
+  align-items: center; /* Centraliza o conteúdo verticalmente */
+  justify-content: center; /* Centraliza o texto horizontalmente */
+  font-size: 14px;
 }
 
-.btn.btn-primary.btn-lg{
-
-    background-color:  rgb(140, 175, 13); border-color: transparent;
-}
-.btn.btn-primary.btn-lg:hover {
-    background-color: #088312; /* Cor de fundo ao passar o mouse */
-}
-.btn.btn-primary.btn-lg:active {
-    background-color: #095a10;
+#loginMaster,
+#homeMaster,
+#homeUsuario {
+  display: flex;
+  margin-top: 0px;
 }
 
-#loginMaster, #homeMaster, #homeUsuario{
-    display:flex;
-    margin-top: 0px;
-}
-
-.sair{
-    font-weight: bold;
-    font-size: 14px;
-    color: white;
-    text-decoration: none;
+.sair {
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+  text-decoration: none;
 }

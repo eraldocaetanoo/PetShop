@@ -1,9 +1,23 @@
 from main import app
+from functools import wraps
 from flask import render_template, request, redirect, url_for, session, abort
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from models.models import *
 
 lm = LoginManager(app)
+
+
+def tipo_usuario_requerido(tipo):
+    def wrapper(func):
+        @wraps(func)
+        def decorated_view(*args, **kwargs):
+            if session.get('tipo_usuario') != tipo:
+                abort(403)  # Proibido
+            return func(*args, **kwargs)
+        return decorated_view
+    return wrapper
+
+
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -52,6 +66,7 @@ def user_loader(user_id):
 
 # Cadastro do Master (Se for só um master, só se faz isso uma vez)
 @app.route('/cadastro/master', methods = ['GET','POST'])
+@tipo_usuario_requerido('master') # PARA CADASTRAR MASTER TEM QUE REMOVER ESSA LINHA
 def cadastrarmaster():
     if request.method == 'GET':
         return render_template('/cadastroMaster.html')
@@ -66,11 +81,13 @@ def cadastrarmaster():
 
         session['tipo_usuario'] = 'master'  # <-- Isso aqui ANTES do login_user
         login_user(master)
+
         return redirect(url_for('master'))
         
 
 @app.route('/master/cadastro/usuario', methods = ['GET','POST'])
 @login_required
+@tipo_usuario_requerido('master')
 def cadastro_usuario():
     if request.method == 'GET':
         return render_template('/master/cadastroUsuario.html')
@@ -81,6 +98,9 @@ def cadastro_usuario():
         email = request.form['usuarioEmail']
         telefone = request.form['usuarioTelefone']
 
+        if login_existe(login):
+            return render_template('/master/cadastroUsuario.html', erro="Esse login já está em uso. Escolha outro.")
+
         usuario = Usuario(nome=nome, login=login, senha=senha, email=email, telefone=telefone)
         db.session.add(usuario)
         db.session.commit()
@@ -90,17 +110,18 @@ def cadastro_usuario():
 
 @app.route('/master/home')
 @login_required
+@tipo_usuario_requerido('master')
 def master():
-    if session.get('tipo_usuario') != 'master':
-        abort(403)  # Erro "Proibido"
     return render_template('master/home.html')
+
+
 
 @app.route('/usuario/home')
 @login_required
+@tipo_usuario_requerido('usuario')
 def usuario():
-    if session.get('tipo_usuario') != 'usuario':
-        abort(403)  # Erro "Proibido"
     return render_template('usuario/home.html')
+
 
 
 
@@ -113,3 +134,12 @@ def logout():
     logout_user()
     session.clear()  # Limpa o tipo do usuário e dados de sessão
     return redirect(url_for('login'))
+
+
+def login_existe(login):
+    if Master.query.filter_by(login=login).first():
+        return True
+    if Usuario.query.filter_by(login=login).first():
+        return True
+    
+    return False
