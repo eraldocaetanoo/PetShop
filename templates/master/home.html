@@ -30,6 +30,7 @@
             <div style="font-size: 15px;">menu</div>
 
             <div>PetShop</div>
+            <div><img class="imgPetHouse" src="../../static/images/pet-house.png" alt="image"></div>
 
         </div>
 
@@ -57,16 +58,16 @@
     <main class="container">
 
         <h2>Olá, {{current_user.nome}}</h2>
-        <p></p>
+        
         <a href="{{ url_for('cadastro_usuario') }}">
             <button class="btn btn-primary btn-lg">Cadastrar usuário</button>
         </a>
 
+        
+
 
         <div class="footer">
-            <div class="text-white">
-                Copyright © 2025. Todos os direitos reservados.
-            </div>
+            &copy; 2025. Todos os direitos reservados.
         </div>
 
     </main>
