@@ -41,5 +41,53 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
     });
+
+   
 });
   
+document.addEventListener('DOMContentLoaded', function () {
+    const menuToggle = document.getElementById('menuToggle');
+    const dropdownMenu = document.getElementById('menuItems');
+    let hideTimeout;
+  
+    // Função para mostrar o menu
+    function showMenu() {
+      clearTimeout(hideTimeout); // cancela o atraso de esconder
+      dropdownMenu.classList.add('show');
+    }
+  
+    // Função para esconder o menu com atraso
+    function hideMenu() {
+      hideTimeout = setTimeout(() => {
+        dropdownMenu.classList.remove('show');
+      }, 500); // atraso para a transição suave
+    }
+  
+    // Detecta toque (mobile)
+    if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) {
+      menuToggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (dropdownMenu.classList.contains('show')) {
+          hideMenu();
+        } else {
+          showMenu();
+        }
+      });
+  
+      // Fecha o menu ao tocar fora (mobile)
+      document.addEventListener('click', function (e) {
+        if (!menuToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+          hideMenu();
+        }
+      });
+    }
+  
+    // Eventos para desktop (hover com atraso ao sair)
+    menuToggle.addEventListener('mouseenter', showMenu);
+    dropdownMenu.addEventListener('mouseenter', showMenu);
+  
+    menuToggle.addEventListener('mouseleave', hideMenu);
+    dropdownMenu.addEventListener('mouseleave', hideMenu);
+  });
+  
+

@@ -212,6 +212,99 @@ body.dark-mode .slider:before {
   border-radius: 20px;
 }
 
+#menudropdown {
+  align-self: stretch;
+}
+
+.dropdown-menu {
+  opacity: 0;
+  visibility: hidden;
+  display: block; /* sempre visível para poder animar opacidade */
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  pointer-events: none; /* impede clique quando invisível */
+}
+
+.dropdown-menu.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/*
+
+/* Transição suave no hover do menu 
+.dropdown-menu {
+  margin-top: 0.5rem;
+  visibility: hidden; /* Começa invisível 
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out, visibility 0s 0.5s; /* A visibilidade muda após a transição de opacidade 
+}
+
+.dropdown-menu.show {
+  visibility: visible; /* Torna visível 
+  opacity: 1;  /* Quando a classe show for adicionada, o menu se torna visível 
+}
+*/
+/* Mostrar menu ao passar o mouse no desktop */
+@media (hover: hover) and (pointer: fine) {
+  #menuDropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+}
+
+/*
+@media (hover: hover) and (pointer: fine) {
+  #menuDropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+  }
+}
+*/
+
+/* Menu com animação e estilo no modo escuro */
+body.dark-mode #menuItems {
+  background-color: #1f1f1f;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode #menuItems .dropdown-item {
+  color: #ffffff;
+  transition: background-color 0.2s ease-in-out;
+}
+
+body.dark-mode #menuItems .dropdown-item:hover {
+  background-color: #333333;
+}
+
+/* Adicionar estilo ao ícone do menu */
+body.dark-mode #menuToggle i {
+  color: #ffffff;
+  transition: transform 0.3s ease;
+}
+
+/* Hover para os itens do menu no modo claro */
+#menuItems .dropdown-item:hover {
+  background-color: #f0f0f0;
+  color: #000000;
+}
+
+#menuToggle i::before {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+#menuToggle:hover i::before {
+  transform: rotate(90deg);
+}
+/* Hover do ícone do menu */
+#menuToggle:hover i {
+  transform: rotate(90deg); /* Efeito de rotação no ícone */
+  cursor: pointer;
+}
+
 header {
   position: fixed;
   top: 0;
