@@ -81,13 +81,217 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       });
     }
-  
+    
+    
     // Eventos para desktop (hover com atraso ao sair)
-    menuToggle.addEventListener('mouseenter', showMenu);
-    dropdownMenu.addEventListener('mouseenter', showMenu);
-  
-    menuToggle.addEventListener('mouseleave', hideMenu);
-    dropdownMenu.addEventListener('mouseleave', hideMenu);
-  });
+    if (menuToggle && dropdownMenu) {
+      // Eventos para desktop (hover com atraso ao sair)
+      menuToggle.addEventListener('mouseenter', showMenu);
+      dropdownMenu.addEventListener('mouseenter', showMenu);
+      
+      menuToggle.addEventListener('mouseleave', hideMenu);
+      dropdownMenu.addEventListener('mouseleave', hideMenu);
+    }
+});
   
 
+document.addEventListener('DOMContentLoaded', function () {
+  const menuDropdown = document.getElementById('menuDropdown');
+  const menuItems = document.getElementById('menuItems');
+
+  menuDropdown.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault(); // impede scroll da página com espaço
+      menuItems.classList.toggle('show'); // alterna o menu
+    }
+  });
+
+  menuDropdown.addEventListener('click', function () {
+    menuItems.classList.toggle('show');
+  });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+
+  let debounceTimeout;
+
+  const ids = ['login', 'masterLogin'];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+      if (el) {
+          el.addEventListener('input', function () {
+            
+            clearTimeout(debounceTimeout); // Limpa o último timeout
+
+            const login = this.value;
+            const feedback = document.getElementById('login-feedback');
+        
+            if (login.length < 3) {
+                feedback.textContent = 'Digite pelo menos 3 caracteres.';
+                feedback.style.color = 'gray';
+                return;
+            }
+        
+            debounceTimeout = setTimeout(() => {
+                fetch('/verificar_login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ login: login })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    feedback.textContent = data.mensagem;
+                    feedback.style.color = data.disponivel ? 'green' : 'red';
+                })
+                .catch(error => {
+                    feedback.textContent = 'Erro ao verificar login.';
+                    feedback.style.color = 'gray';
+                });
+            }, 500); // Aguarda 500ms antes de enviar a requisição
+
+
+          });
+      }
+
+
+  });
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+
+  // Formatação de telefone
+  document.getElementById("telefone").addEventListener("input", function (e) {
+    let value = e.target.value.replace(/\D/g, "");
+
+    // Se não tem nenhum número, não mostra nada
+    if (value.length === 0) {
+      e.target.value = "";
+      return;
+    }
+
+    // Limita ao máximo de 11 dígitos
+    if (value.length > 11) value = value.slice(0, 11);
+
+    // Formata conforme o número de dígitos
+    if (value.length >= 11) {
+      value = value.replace(/^(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+    } else if (value.length >= 10) {
+      value = value.replace(/^(\d{2})(\d{4})(\d{4})/, "($1) $2-$3");
+    } else if (value.length >= 3) {
+      value = value.replace(/^(\d{2})(\d{0,5})/, "($1) $2");
+    } else {
+      value = value.replace(/^(\d{0,2})/, "($1");
+    }
+
+    e.target.value = value;
+  });
+
+  // Formatação de CEP
+  document.getElementById("cep").addEventListener("input", function (e) {
+    let value = e.target.value.replace(/\D/g, ""); // Remove qualquer caractere que não seja número
+
+    // Se não tem nenhum número, não mostra nada
+    if (value.length === 0) {
+      e.target.value = "";
+      return;
+    }
+
+    // Limita ao máximo de 8 dígitos (CEP no Brasil tem 8 números)
+    if (value.length > 8) value = value.slice(0, 8);
+
+    // Formata o CEP como 'xxxxx-xxx'
+    if (value.length >= 5) {
+      value = value.replace(/^(\d{5})(\d{0,3})/, "$1-$2");
+    }
+
+    e.target.value = value;
+  });
+
+
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById("preco").addEventListener("input", function (e) {
+    let value = e.target.value.replace(/\D/g, "");
+    value = (value / 100).toFixed(2);
+    value = value.replace(".", ",");
+    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    e.target.value = "R$ " + value;
+  });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const selects = document.querySelectorAll('.custom-select-cor');
+
+  selects.forEach(function (select) {
+    select.addEventListener('change', function () {
+      if (this.value) {
+        this.classList.add('valid-option');
+      } else {
+        this.classList.remove('valid-option');
+      }
+    });
+  });
+
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const racasPorEspecie = {
+    Cachorro: [
+      "Labrador",
+      "Poodle",
+      "Bulldog",
+      "Golden Retriever",
+      "Vira-lata"
+    ],
+    Gato: [
+      "Siamês",
+      "Persa",
+      "Maine Coon",
+      "SRD"
+    ],
+    Pássaro: [
+      "Canário",
+      "Papagaio",
+      "Periquito"
+    ],
+    Roedor: [
+      "Hamster",
+      "Porquinho-da-Índia"
+    ],
+    Réptil: [
+      "Jabuti",
+      "Iguana"
+    ],
+    Outro: [
+      "Outro"
+    ]
+  };
+
+  const especieSelect = document.getElementById("especie");
+  const racaSelect = document.getElementById("raca");
+
+  especieSelect.addEventListener("change", function () {
+    const especieSelecionada = this.value;
+    const racas = racasPorEspecie[especieSelecionada] || [];
+
+    // Limpa o select de raças
+    racaSelect.innerHTML = '<option value="">Selecione a raça</option>';
+
+    // Adiciona as opções da raça conforme a espécie
+    racas.forEach(raca => {
+      const option = document.createElement("option");
+      option.value = raca;
+      option.textContent = raca;
+      racaSelect.appendChild(option);
+    });
+  });
+
+});

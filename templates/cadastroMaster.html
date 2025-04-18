@@ -52,30 +52,33 @@
             <div class="divImagemlogin">
                 <img src="../static/images/cute_pet_collage_isolated.png" class="img-fluid" alt="Sample image" />
             </div>
-            <div class="divFormLogin">
+            <div class="divFormLogin" style="padding-bottom: 20px;">
                 <form action="/cadastro/master" method="POST" style="margin-inline: 25px;">
 
                     <h2 style="text-align: center; padding-top: 30px; padding-bottom: 20px;"><strong>Cadastrar Master</strong></h2>
 
 
                     <div data-mdb-input-init class="form-outline mb-4">
-                        <input type="text" id="form3Example3" name="masterNome" class="form-control form-control-lg"
+                        <input type="text" id="masterNome" name="masterNome" class="form-control form-control-lg"
                             placeholder="Digite o nome" />
-                        <label class=" form-label" for="form3Example3">Nome</label>
+                        <label class=" form-label" for="masterNome">Nome</label>
                     </div>
 
                     <!-- Login input -->
                     <div data-mdb-input-init class="form-outline mb-4">
-                        <input type="text" id="form3Example3" name="masterLogin" class="form-control form-control-lg"
-                            placeholder="Digite o usuário" />
-                        <label class=" form-label" for="form3Example3">Usuário</label>
+                        <input type="text" id="masterLogin" name="masterLogin" class="form-control form-control-lg"
+                            placeholder="Digite o usuário" autocomplete="username" required/>
+                        <label class=" form-label" for="masterLogin">Usuário</label>
+                        <div id="login-feedback" class="form-text" style="font-weight: bold;"></div>
                     </div>
+
+
 
                     <!-- Password input -->
                     <div data-mdb-input-init class="form-outline mb-3">
-                        <input type="password" id="form3Example4" name="masterSenha"
-                            class="form-control form-control-lg" placeholder="Digite a senha" />
-                        <label class="form-label" for="form3Example4">Senha</label>
+                        <input type="password" id="masterSenha" name="masterSenha"
+                            class="form-control form-control-lg" placeholder="Digite a senha" autocomplete="current-password" required />
+                        <label class="form-label" for="masterSenha">Senha</label>
                     </div>
 
                     <div id="divButtonCadastrar">

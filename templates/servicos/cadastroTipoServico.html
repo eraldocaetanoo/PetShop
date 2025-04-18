@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap');
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../../static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" href="../../static/images/animais-de-estimacao.png" type="image/png">
+    <!-- Importando o Bootstrap JS para a funcionalidade do formulário 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
+
+
+
+    <title>Cadastro de tipo de Serviço</title>
+</head>
+
+
+
+<body>
+    <header class="fixed-top" id="Header">
+        <div id="container2">
+            <!-- Menu suspenso -->
+            <div class="dropdown" id="menuDropdown"  tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">
+                <div class="text-white" id="menuToggle" role="button">
+                    <i class="bi bi-list me-2"></i>
+                </div>
+                <ul class="dropdown-menu" id="menuItems">
+                    <li><a class="dropdown-item" href="{% if session['tipo_usuario'] == 'usuario' %}
+                                {{ url_for('usuario_bp.usuario') }}
+                            {% elif session['tipo_usuario'] == 'master' %}
+                                {{ url_for('master_bp.master') }}
+                            {% else %}
+                                #
+                            {% endif %}"><i class="bi bi-house me-2"></i>Início</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Perfil</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configurações</a></li>
+                </ul>
+            </div>
+
+            <div class="titulo">PetShop</div>
+            <div><img class="imgPetHouse" src="../../static/images/pet-house.png" alt="image"></div>
+
+        </div>
+
+
+
+        <div class="usuarioSessao">
+            Login da sessão: ({{current_user.login}}) <a href="#" class="sair"
+                onclick="document.getElementById('logout-form').submit();" data-bs-toggle="tooltip"
+                title="Logout da sessão">Sair</a>
+
+            <form id="logout-form" action="{{ url_for('login_bp.logout') }}" method="POST" style="display: none;">
+                <!-- Você pode adicionar um CSRF token aqui se estiver usando Flask-WTF -->
+            </form>
+
+            <br>
+            <div class="theme-toggle">
+                <label class="switch" data-bs-toggle="tooltip" title="Alternar tema claro/escuro">
+                    <input type="checkbox" id="toggleTheme">
+                    <span class="slider round"></span>
+                </label>
+                <i id="themeIcon" class="fas fa-sun theme-icon"></i> <!-- Ícone inicial -->
+            </div>
+        </div>
+
+    </header>
+
+    <main class="container paddingBottom50px">
+
+        <h2>Cadastro de tipo de Serviço</h2>
+        <div class="container-box">
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <form action="" method="POST">
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="nome">Nome do serviço</label>
+                        <input type="text" id="nome" name="servicoNome" class="form-control" required
+                            placeholder="Nome">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="descricao">Descrição</label>
+                        <input type="text" id="descricao" name="servicoDescricao" class="form-control" required
+                            placeholder="Descrição do serviço">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="duracao">Duração estimada</label>
+                        <input type="number" id="duracao" name="servicoDuracao" class="form-control" required
+                            placeholder="Duração em minutos">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="preco">Preço estimado</label>
+                        <input type="text" id="preco" name="servicoPreco" class="form-control" placeholder="R$ 0,00" required>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label for="observacoes">Observações</label>
+                        <textarea id="observacoes" name="servicoObservacoes" class="form-control" rows="4" placeholder="Se necessário, faça observações" required></textarea>
+                      </div>
+                </div>
+
+                <div id="divButtonCadastrar" style="padding-top: 20px;">
+
+                    <button type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="footer">
+            &copy; 2025. Todos os direitos reservados.
+        </div>
+
+    </main>
+
+
+    <script src="../../static/main.js"></script>
+</body>
+
+</html>

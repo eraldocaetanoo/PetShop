@@ -1,70 +1,73 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Página Escura</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home - Sistema de Cadastros</title>
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    :root {
-      --bg-color: #121212;
-      --primary-color: #05002e;
-      --text-color: #e0e0e0;
-      --footer-bg: #1a1a1a;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
-      font-family: 'Inter', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      display: flex;
-      flex-direction: column;
+      background: linear-gradient(to right, #e0eafc, #cfdef3);
       min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-
-    header {
-      background-color: var(--primary-color);
-      color: white;
-      padding: 15px 30px;
-      font-size: 24px;
-      font-weight: bold;
+  
+    .container-box {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      max-width: 700px;
+      width: 100%;
     }
-
-    main {
-      flex: 1;
-      padding: 40px 30px;
+  
+    .btn-custom {
+      width: 100%;
+      margin-bottom: 15px;
+      font-size: 1rem;
+      padding: 12px 20px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
     }
-
-    footer {
-      background-color: var(--footer-bg);
-      text-align: center;
-      padding: 15px 30px;
-      font-size: 14px;
-      color: #aaa;
+  
+    .btn-custom:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+  
+    h1 {
+      color: #333;
+      margin-bottom: 30px;
     }
   </style>
+  
 </head>
 <body>
+  <div class="container container-box text-center">
+    <h1 class="mb-4">Sistema de Cadastros</h1>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <a href="cadastro_usuarios.html" class="btn btn-primary btn-custom">Cadastro de Usuários</a>
+      </div>
+      <div class="col-md-6">
+        <a href="cadastro_clientes.html" class="btn btn-success btn-custom">Cadastro de Clientes</a>
+      </div>
+      <div class="col-md-6">
+        <a href="cadastro_animais.html" class="btn btn-warning btn-custom">Cadastro de Animais</a>
+      </div>
+      <div class="col-md-6">
+        <a href="cadastro_veterinarios.html" class="btn btn-info btn-custom">Cadastro de Veterinários</a>
+      </div>
+      <div class="col-md-6 mx-auto">
+        <a href="cadastro_servicos.html" class="btn btn-danger btn-custom">Cadastro de Serviços</a>
+      </div>
+    </div>
+  </div>
 
-  <header>
-    Meu Site Bonito
-  </header>
-
-  <main>
-    <h1>Bem-vindo!</h1>
-    <p>Essa é uma página com layout simples, agora com um visual escuro e elegante.</p>
-  </main>
-
-  <footer>
-    &copy; 2025 - Todos os direitos reservados
-  </footer>
-
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -15,7 +15,7 @@ class Usuario(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
-    telefone = db.Column(db.Integer, nullable=False)
+    telefone = db.Column(db.String(20), nullable=False)
     login = db.Column(db.String(30), unique=True, nullable=False)
     senha = db.Column(db.String(), nullable=False)
 
@@ -25,8 +25,15 @@ class Cliente(UserMixin, db.Model):
     nome = db.Column(db.String(100), nullable=False)
     genero = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
-    telefone = db.Column(db.Integer, nullable=False)
-    endereco = db.Column(db.String(100), nullable=False)
+    telefone = db.Column(db.String(20), nullable=False)
+
+    # Endereço separado
+    rua = db.Column(db.String(100), nullable=False)
+    numero = db.Column(db.String(20), nullable=False)
+    bairro = db.Column(db.String(100), nullable=False)
+    cidade = db.Column(db.String(100), nullable=False)
+    estado = db.Column(db.String(100), nullable=False)
+    cep = db.Column(db.String(20), nullable=False)
 
 class Animais(UserMixin, db.Model):
     __tablename__ = 'animais'
@@ -35,10 +42,12 @@ class Animais(UserMixin, db.Model):
     especie = db.Column(db.String(100), nullable=False)
     raca = db.Column(db.String(100), nullable=False)
     idade = db.Column(db.Integer, nullable=True) 
-    sexo = db.Column(db.String(1), nullable=False)
+    sexo = db.Column(db.String(100), nullable=False)
     cor = db.Column(db.String(100), nullable=False)
     peso = db.Column(db.Float, nullable=False)
-    responsavel = db.Column(db.String(100), nullable=False)
+    responsavel_id = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=False)
+    responsavel = db.relationship('Cliente', backref='animais')
+    observacoes = db.Column(db.String(100), nullable=False)
 
 class Veterinarios(UserMixin, db.Model):
     __tablename__ = 'veterinarios'
@@ -47,7 +56,7 @@ class Veterinarios(UserMixin, db.Model):
     data_nascimento = db.Column(db.Date, nullable=True)
     genero = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
-    telefone = db.Column(db.Integer, nullable=False)
+    telefone = db.Column(db.String(20), nullable=False)
     formacao = db.Column(db.String(100), nullable=False)
     especializacao = db.Column(db.String(100), nullable=False)
     observacoes = db.Column(db.String(100), nullable=False)

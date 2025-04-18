@@ -1,6 +1,6 @@
 # main.py
 from flask import Flask
-from extensions import login_manager
+from controllers.utils.utils import login_manager
 import os
 from models.models import db
 from controllers.usuario_controller import usuario_bp

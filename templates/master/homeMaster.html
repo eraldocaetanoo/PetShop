@@ -33,32 +33,34 @@
         <div id="container2">
 
             <!-- Menu suspenso -->
-            <div class="dropdown" id="menuDropdown">
+            <div class="dropdown" id="menuDropdown"  tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">
                 <div class="text-white" id="menuToggle" role="button">
                     <i class="bi bi-list me-2"></i>
                 </div>
                 <ul class="dropdown-menu" id="menuItems">
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-house me-2"></i>Início</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Perfil</a></li>
+                    <li><a class="dropdown-item" href="{{url_for('master_bp.master')}}"><i
+                                class="bi bi-house me-2"></i>Início</a></li>
+                    <li><a class="dropdown-item" href="{{url_for('master_bp.cadastro_usuario')}}"><i
+                                class="bi bi-person me-2"></i>Cadastro de usuários</a></li>
                     <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configurações</a></li>
                 </ul>
             </div>
 
-            <div>PetShop</div>
+            <div class="titulo">PetShop</div>
             <div><img class="imgPetHouse" src="../../static/images/pet-house.png" alt="image"></div>
         </div>
 
         <div class="usuarioSessao">
+            <div>
+                Login da sessão: ({{current_user.login}}) <a href="#" class="sair"
+                    onclick="document.getElementById('logout-form').submit();" data-bs-toggle="tooltip"
+                    title="Logout da sessão">Sair</a>
 
-            Login da sessão: ({{current_user.login}}) <a href="#" class="sair"
-                onclick="document.getElementById('logout-form').submit();" data-bs-toggle="tooltip"
-                title="Logout da sessão">Sair</a>
-
-            <form id="logout-form" action="{{ url_for('login_bp.logout') }}" method="POST" style="display: none;">
-                <!-- Você pode adicionar um CSRF token aqui se estiver usando Flask-WTF -->
-            </form>
-
-            <br>
+                <form id="logout-form" action="{{ url_for('login_bp.logout') }}" method="POST" style="display: none;">
+                    <!-- Você pode adicionar um CSRF token aqui se estiver usando Flask-WTF -->
+                </form>
+            </div>
+            
             <div class="theme-toggle">
                 <label class="switch" data-bs-toggle="tooltip" title="Alternar tema claro/escuro">
                     <input type="checkbox" id="toggleTheme">
@@ -73,16 +75,62 @@
 
         <h2>Olá, {{current_user.nome}}</h2>
 
-        <a href="{{ url_for('master_bp.cadastro_usuario') }}">
-            <button class="btn btn-primary btn-lg">Cadastrar usuário</button>
-        </a>
+        <div class="container-box text-center" id="opcoes">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <a href="{{ url_for('master_bp.cadastro_usuario') }}">
+                        <button class="btn btn-primary btn-custom"><i class="fas fa-user"></i>Cadastro de
+                            Usuários</button>
+                    </a>
+                </div>
 
+                <div class="col-md-6 mx-auto">
+                    <a href="{{ url_for('master_bp.cadastro_cliente') }}">
+                        <button class="btn btn-primary btn-custom"><i class="fas fa-users"></i>Cadastro de
+                            Clientes</button>
+                    </a>
+                </div>
 
+                <div class="col-md-6 mx-auto">
+                    <a href="{{ url_for('master_bp.cadastro_animal') }}">
+                        <button class="btn btn-primary btn-custom"><i class="fas fa-dog"></i> Cadastro de
+                            Animais</button>
+                    </a>
+                </div>
 
+                <div class="col-md-6 mx-auto">
+                    <a href="#">
+                        <button class="btn btn-primary btn-custom"><i class="fas fa-user-md"></i> Cadastro de
+                            Veterinários</button>
+                    </a>
+                </div>
 
-        <div class="footer">
-            &copy; 2025. Todos os direitos reservados.
-        </div>
+                <div class="col-md-6 mx-auto">
+                    <a href="#">
+                        <button class="btn btn-primary btn-custom"><i class="fas fa-file-medical"></i>Cadastro de
+                            Prontuário</button>
+                    </a>
+                </div>
+
+                <div class="col-md-6 mx-auto">
+                    <a href="#">
+                        <button class="btn btn-primary btn-custom"><i class="fas fa-briefcase-medical"></i> Cadastro de
+                            Serviços</button>
+                    </a>
+                </div>
+
+                <div class="col-md-6 mx-auto">
+                    <a href="{{ url_for('master_bp.cadastro_tipo_servico') }}">
+                        <button class="btn btn-primary btn-custom"><i class="fas fa-paw"></i> Cadastro de Tipo de
+                            Serviço</button>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="footer">
+                &copy; 2025. Todos os direitos reservados.
+            </div>
 
     </main>
 </body>

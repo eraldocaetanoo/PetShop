@@ -3,8 +3,10 @@
 from flask import render_template, request, redirect, url_for, session
 from flask_login import login_user, login_required
 from models.models import db, Master, Usuario
-from extensions import tipo_usuario_requerido, login_existe
+from controllers.utils.utils import tipo_usuario_requerido, login_existe, cadastrar_usuario, cadastrar_cliente, cadastrar_animal, cadastrar_tipo_servico
 from flask import Blueprint
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 
 
@@ -21,8 +23,13 @@ def cadastrarmaster():
         nome = request.form['masterNome']
         login = request.form['masterLogin']
         senha = request.form['masterSenha']
+        senha_hash = generate_password_hash(senha)  # senha é o valor vindo do form
+        
+        if login_existe(login):
+            return render_template('/cadastroMaster.html', erro="Esse login já está em uso. Escolha outro.")
 
-        master = Master(nome=nome, login=login, senha=senha)
+
+        master = Master(nome=nome, login=login, senha=senha_hash)
         db.session.add(master)
         db.session.commit()
 
@@ -30,29 +37,30 @@ def cadastrarmaster():
         login_user(master)
 
         return redirect(url_for('master_bp.master'))
-    
 
-@master_bp.route('/master/cadastro/usuario', methods = ['GET','POST'])
+@master_bp.route('/master/cadastro/usuario', methods=['GET', 'POST'])
 @login_required
 @tipo_usuario_requerido('master')
 def cadastro_usuario():
-    if request.method == 'GET':
-        return render_template('/master/cadastroUsuario.html')
-    elif request.method =='POST':
-        nome = request.form['usuarioNome']
-        login = request.form['usuarioLogin']
-        senha = request.form['usuarioSenha']
-        email = request.form['usuarioEmail']
-        telefone = request.form['usuarioTelefone']
+    return cadastrar_usuario('master')
 
-        if login_existe(login):
-            return render_template('/master/cadastroUsuario.html', erro="Esse login já está em uso. Escolha outro.")
+@master_bp.route('/master/cadastro/cliente', methods=['GET', 'POST'])
+@login_required
+@tipo_usuario_requerido('master')
+def cadastro_cliente():
+    return cadastrar_cliente('master')
 
-        usuario = Usuario(nome=nome, login=login, senha=senha, email=email, telefone=telefone)
-        db.session.add(usuario)
-        db.session.commit()
+@master_bp.route('/master/cadastro/animal', methods=['GET', 'POST'])
+@login_required
+@tipo_usuario_requerido('master')
+def cadastro_animal():
+    return cadastrar_animal('master')
 
-        return redirect(url_for('master_bp.cadastro_usuario'))
+@master_bp.route('/master/cadastro/tipo-servico', methods=['GET', 'POST'])
+@login_required
+@tipo_usuario_requerido('master')
+def cadastro_tipo_servico():
+    return cadastrar_tipo_servico('master')
 
 
 @master_bp.route('/master/home')
@@ -60,3 +68,29 @@ def cadastro_usuario():
 @tipo_usuario_requerido('master')
 def master():
     return render_template('master/homeMaster.html')
+
+
+# @master_bp.route('/master/cadastro/usuario', methods = ['GET','POST'])
+# @login_required
+# @tipo_usuario_requerido('master')
+# def cadastro_usuario():
+#     if request.method == 'GET':
+#         return render_template('/usuario/cadastroUsuario.html')
+#     elif request.method =='POST':
+#         nome = request.form['usuarioNome']
+#         login = request.form['usuarioLogin']
+#         senha = request.form['usuarioSenha']
+#         senha_hash = generate_password_hash(senha)  # senha é o valor vindo do form
+#         email = request.form['usuarioEmail']
+#         telefone = request.form['usuarioTelefone']
+
+#         if login_existe(login):
+#             return render_template('/usuario/cadastroUsuario.html')
+
+#         usuario = Usuario(nome=nome, login=login, senha=senha_hash, email=email, telefone=telefone)
+#         db.session.add(usuario)
+#         db.session.commit()
+
+#         return redirect(url_for('master_bp.cadastro_usuario'))
+
+
