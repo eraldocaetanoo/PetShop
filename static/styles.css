@@ -316,6 +316,11 @@ option {
   pointer-events: none; /* impede clique quando invisível */
 }
 
+.dropdown-menu i {
+  min-width: 20px;
+  text-align: center;
+}
+
 .dropdown-menu.show {
   opacity: 1;
   visibility: visible;

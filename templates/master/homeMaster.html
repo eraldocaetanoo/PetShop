@@ -38,11 +38,73 @@
                     <i class="bi bi-list me-2"></i>
                 </div>
                 <ul class="dropdown-menu" id="menuItems">
-                    <li><a class="dropdown-item" href="{{url_for('master_bp.master')}}"><i
-                                class="bi bi-house me-2"></i>Início</a></li>
-                    <li><a class="dropdown-item" href="{{url_for('master_bp.cadastro_usuario')}}"><i
-                                class="bi bi-person me-2"></i>Cadastro de usuários</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configurações</a></li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="{% if session['tipo_usuario'] == 'usuario' %}
+                        {{ url_for('usuario_bp.usuario') }}
+                    {% elif session['tipo_usuario'] == 'master' %}
+                        {{ url_for('master_bp.master') }}
+                    {% else %}
+                        #
+                    {% endif %}">
+                            <i class="fa-solid fa-house me-2"></i>Início
+                        </a>
+                    </li>
+                    {% if session['tipo_usuario'] == 'master' %}
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="{{ url_for('master_bp.cadastro_usuario') }}">
+                                <i class="fa-solid fa-user me-2"></i>Cadastro de usuários
+                            </a>
+                        </li>
+                    {% endif %} 
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="{% if session['tipo_usuario'] == 'usuario' %}
+                        {{ url_for('usuario_bp.cadastro_cliente') }}
+                    {% elif session['tipo_usuario'] == 'master' %}
+                        {{ url_for('master_bp.cadastro_cliente') }}
+                    {% else %}
+                        #
+                    {% endif %}">
+                            <i class="fa-solid fa-users me-2"></i>Cadastro de clientes
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="{% if session['tipo_usuario'] == 'usuario' %}
+                        {{ url_for('usuario_bp.cadastro_animal') }}
+                    {% elif session['tipo_usuario'] == 'master' %}
+                        {{ url_for('master_bp.cadastro_animal') }}
+                    {% else %}
+                        #
+                    {% endif %}">
+                            <i class="fa-solid fa-dog me-2"></i>Cadastro de animais
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="fa-solid fa-user-md me-2"></i>Cadastro de veterinários
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center"
+                            href="#">
+                            <i class="fa-solid fa-file-medical me-2"></i>Cadastro de prontuário
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="fa-solid fa-briefcase-medical me-2"></i>Cadastro de serviços
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="{% if session['tipo_usuario'] == 'usuario' %}
+                        {{ url_for('usuario_bp.cadastro_tipo_servico') }}
+                    {% elif session['tipo_usuario'] == 'master' %}
+                        {{ url_for('master_bp.cadastro_tipo_servico') }}
+                    {% else %}
+                        #
+                    {% endif %}">
+                            <i class="fa-solid fa-paw me-2"></i>Cadastro de tipo de serviço
+                        </a>
+                    </li>
                 </ul>
             </div>
 
