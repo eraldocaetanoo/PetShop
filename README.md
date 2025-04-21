@@ -1,4 +1,4 @@
-# Energy-Gym
+# PetShop
 Web development for Pet Shop
 
 Equipe: \
