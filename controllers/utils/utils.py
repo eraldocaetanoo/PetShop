@@ -95,10 +95,14 @@ def cadastrar_animal(logado_tipo):
         nome = request.form['animalNome']
         especie = request.form['animalEspecie']
         raca = request.form['animalRaca']
-        idade = request.form['animalIdade']
+        
+        anos = int(request.form['animalIdadeAnos'] or 0)
+        meses = int(request.form['animalIdadeMeses'] or 0)
+        idade = anos * 12 + meses
+
         sexo = request.form['animalSexo']
         cor = request.form['animalCor']
-        peso = request.form['animalPeso']
+        peso = float(request.form['animalPeso'] or 0.0)
         responsavel_id = request.form['animalResponsavel']
         observacoes = request.form['animalObservacoes']
         

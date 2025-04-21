@@ -32,7 +32,7 @@
             <!-- Menu suspenso -->
             <div class="dropdown" id="menuDropdown"  tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">
                 <div class="text-white" id="menuToggle" role="button">
-                    <i class="bi bi-list me-2"></i>
+                    <i class="bi bi-list"></i>
                 </div>
                 <ul class="dropdown-menu" id="menuItems">
                     <li>
@@ -43,13 +43,13 @@
                     {% else %}
                         #
                     {% endif %}">
-                            <i class="fa-solid fa-house me-2"></i>Início
+                            <i class="fa-solid fa-house me-3"></i>Início
                         </a>
                     </li>
                     {% if session['tipo_usuario'] == 'master' %}
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="{{ url_for('master_bp.cadastro_usuario') }}">
-                                <i class="fa-solid fa-user me-2"></i>Cadastro de usuários
+                                <i class="fa-solid fa-user me-3"></i>Cadastro de usuários
                             </a>
                         </li>
                     {% endif %}
@@ -61,7 +61,7 @@
                     {% else %}
                         #
                     {% endif %}">
-                            <i class="fa-solid fa-users me-2"></i>Cadastro de clientes
+                            <i class="fa-solid fa-users me-3"></i>Cadastro de clientes
                         </a>
                     </li>
                     <li>
@@ -72,23 +72,23 @@
                     {% else %}
                         #
                     {% endif %}">
-                            <i class="fa-solid fa-dog me-2"></i>Cadastro de animais
+                            <i class="fa-solid fa-dog me-3"></i>Cadastro de animais
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item d-flex align-items-center" href="#">
-                            <i class="fa-solid fa-user-md me-2"></i>Cadastro de veterinários
+                            <i class="fa-solid fa-user-md me-3"></i>Cadastro de veterinários
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item d-flex align-items-center"
                             href="#">
-                            <i class="fa-solid fa-file-medical me-2"></i>Cadastro de prontuário
+                            <i class="fa-solid fa-file-medical me-3"></i>Cadastro de prontuário
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item d-flex align-items-center" href="#">
-                            <i class="fa-solid fa-briefcase-medical me-2"></i>Cadastro de serviços
+                            <i class="fa-solid fa-briefcase-medical me-3"></i>Cadastro de serviços
                         </a>
                     </li>
                     <li>
@@ -99,7 +99,7 @@
                     {% else %}
                         #
                     {% endif %}">
-                            <i class="fa-solid fa-paw me-2"></i>Cadastro de tipo de serviço
+                            <i class="fa-solid fa-paw me-3"></i>Cadastro de tipo de serviço
                         </a>
                     </li>
                 </ul>

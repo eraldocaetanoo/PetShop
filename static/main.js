@@ -244,33 +244,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', function () {
   const racasPorEspecie = {
-    Cachorro: [
-      "Labrador",
-      "Poodle",
-      "Bulldog",
-      "Golden Retriever",
-      "Vira-lata"
+    "Cachorro": [
+      "Vira-lata", "Labrador Retriever", "Poodle", "Bulldog", "Shih Tzu", "Pinscher", "Golden Retriever", "Pastor Alemão", "Beagle", "Yorkshire Terrier"
     ],
-    Gato: [
-      "Siamês",
-      "Persa",
-      "Maine Coon",
-      "SRD"
+    "Gato": [
+      "Persa", "Siamês", "Maine Coon", "Sphynx", "Angorá", "Bengal", "Ragdoll", "SRD"
     ],
-    Pássaro: [
-      "Canário",
-      "Papagaio",
-      "Periquito"
+    "Pássaro": [
+      "Calopsita", "Periquito", "Canário", "Papagaio", "Agapornis", "Arara"
     ],
-    Roedor: [
-      "Hamster",
-      "Porquinho-da-Índia"
+    "Roedor": [
+      "Hamster", "Porquinho-da-Índia", "Chinchila", "Rato", "Gerbil"
     ],
-    Réptil: [
-      "Jabuti",
-      "Iguana"
+    "Réptil": [
+      "Jabuti", "Iguana", "Gecko", "Teiú", "Corn Snake", "Python", "Cobra"
     ],
-    Outro: [
+    "Peixe": [
+      "Betta", "Kinguios", "Neon", "Oscar", "Platy", "Acará-bandeira", "Disco"
+    ],
+    "Outro": [
       "Outro"
     ]
   };
@@ -294,4 +286,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById("animalPeso").addEventListener("input", function (e) {
+    // Substitui vírgula por ponto automaticamente
+    e.target.value = e.target.value.replace(",", ".");
+  });
 });

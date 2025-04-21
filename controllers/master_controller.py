@@ -62,7 +62,6 @@ def cadastro_animal():
 def cadastro_tipo_servico():
     return cadastrar_tipo_servico('master')
 
-
 @master_bp.route('/master/home')
 @login_required
 @tipo_usuario_requerido('master')
