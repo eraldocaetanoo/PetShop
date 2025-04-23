@@ -142,62 +142,90 @@
 
         </div>
     </header>
-    <main class="container">
+    <main class="container paddingBottom50px">
 
-        <h2>Olá, {{current_user.nome}}</h2>
+        <h2>Lista de usuários</h2>
 
         <div class="container-box text-center" id="opcoes">
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <a href="{{ url_for('master_bp.cadastro_usuario') }}">
-                        <button class="btn btn-primary btn-custom"><i class="fas fa-user"></i>Cadastro de
-                            Usuários</button>
-                    </a>
+            <div class="accordion rounded-3" id="accordionUsuarios">
+                {% for usuario in usuarios %}
+                <div class="accordion-item rounded-3 shadow-sm">
+                    <h2 class="accordion-header" id="heading{{ loop.index }}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse{{ loop.index }}" aria-expanded="false"
+                            aria-controls="collapse{{ loop.index }}">
+                            <strong>{{ loop.index }} - {{ usuario.nome }}</strong>
+                        </button>
+                    </h2>
+                    <div id="collapse{{ loop.index }}" class="accordion-collapse collapse"
+                        aria-labelledby="heading{{ loop.index }}" data-bs-parent="#accordionUsuarios">
+                        <div class="accordion-body text-start">
+                            <strong>Nome:</strong> <br>{{ usuario.nome }}<br>
+                            <strong>Email:</strong> <br>{{ usuario.email }}<br>
+                            <strong>Telefone:</strong> <br>{{ usuario.telefone }}<br>
+                            <button class="btn btn-sm btn-warning mt-2" data-bs-toggle="modal"
+                                data-bs-target="#editarModal{{ usuario.id }}">Editar</button>
+                            <button class="btn btn-sm btn-danger mt-2" data-bs-toggle="modal"
+                                data-bs-target="#excluirModal{{ usuario.id }}">Excluir</button>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="col-md-6 mx-auto">
-                    <a href="{{ url_for('master_bp.cadastro_cliente') }}">
-                        <button class="btn btn-primary btn-custom"><i class="fas fa-users"></i>Cadastro de
-                            Clientes</button>
-                    </a>
+                <!-- Modal Editar -->
+                <div class="modal fade" id="editarModal{{ usuario.id }}" tabindex="-1"
+                    aria-labelledby="editarModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form method="POST" action="{{ url_for('master_bp.editar_usuario', usuario_id=usuario.id) }}">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Editar Usuário</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close" style="background-color: #a5a5a5;"></button>
+                                </div>
+                                <div class="modal-body text-start">
+                                    <label><strong>Nome</strong></label>
+                                    <input class="form-control" name="nome" value="{{ usuario.nome }}">
+                                    <label class="mt-2"><strong>Email</strong></label>
+                                    <input class="form-control" name="email" value="{{ usuario.email }}">
+                                    <label class="mt-2"><strong>Telefone</strong></label>
+                                    <input class="form-control" name="telefone" value="{{ usuario.telefone }}">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success">Salvar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
 
-                <div class="col-md-6 mx-auto">
-                    <a href="{{ url_for('master_bp.cadastro_animal') }}">
-                        <button class="btn btn-primary btn-custom"><i class="fas fa-dog"></i> Cadastro de
-                            Animais</button>
-                    </a>
+                <!-- Modal Excluir -->
+                <div class="modal fade" id="excluirModal{{ usuario.id }}" tabindex="-1"
+                    aria-labelledby="excluirModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form method="POST" action="{{ url_for('master_bp.excluir_usuario', usuario_id=usuario.id) }}">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Confirmar Exclusão</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close" style="background-color: #a5a5a5;"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Tem certeza que deseja excluir <strong>{{ usuario.nome }}</strong>?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-danger">Sim, excluir</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
 
-                <div class="col-md-6 mx-auto">
-                    <a href="#">
-                        <button class="btn btn-primary btn-custom"><i class="fas fa-user-md"></i> Cadastro de
-                            Veterinários</button>
-                    </a>
-                </div>
-
-                <div class="col-md-6 mx-auto">
-                    <a href="#">
-                        <button class="btn btn-primary btn-custom"><i class="fas fa-file-medical"></i>Cadastro de
-                            Prontuário</button>
-                    </a>
-                </div>
-
-                <div class="col-md-6 mx-auto">
-                    <a href="#">
-                        <button class="btn btn-primary btn-custom"><i class="fas fa-briefcase-medical"></i> Cadastro de
-                            Serviços</button>
-                    </a>
-                </div>
-
-                <div class="col-md-6 mx-auto">
-                    <a href="{{ url_for('master_bp.cadastro_tipo_servico') }}">
-                        <button class="btn btn-primary btn-custom"><i class="fas fa-paw"></i> Cadastro de Tipo de
-                            Serviço</button>
-                    </a>
-                </div>
-
+                {% endfor %}
             </div>
+
+
         </div>
         <div class="footer">
             &copy; 2025. Todos os direitos reservados.

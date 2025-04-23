@@ -146,3 +146,7 @@ def cadastrar_tipo_servico(logado_tipo):
         if logado_tipo == 'usuario':
             return redirect(url_for('usuario_bp.cadastro_tipo_servico'))
 
+
+def renderizar_lista_usuarios():
+    usuarios = Usuario.query.all()
+    return render_template('master/listar_usuarios.html', usuarios=usuarios)

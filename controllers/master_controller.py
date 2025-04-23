@@ -3,7 +3,7 @@
 from flask import render_template, request, redirect, url_for, session
 from flask_login import login_user, login_required
 from models.models import db, Master, Usuario
-from controllers.utils.utils import tipo_usuario_requerido, login_existe, cadastrar_usuario, cadastrar_cliente, cadastrar_animal, cadastrar_tipo_servico
+from controllers.utils.utils import tipo_usuario_requerido, login_existe, cadastrar_usuario, cadastrar_cliente, cadastrar_animal, cadastrar_tipo_servico, renderizar_lista_usuarios
 from flask import Blueprint
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -68,6 +68,29 @@ def cadastro_tipo_servico():
 def master():
     return render_template('master/homeMaster.html')
 
+
+
+@master_bp.route('/master/usuarios/list')
+@login_required
+@tipo_usuario_requerido('master')
+def listar_usuarios():
+    return renderizar_lista_usuarios()
+
+@master_bp.route('/master/usuarios/editar/<int:usuario_id>', methods=['POST'])
+def editar_usuario(usuario_id):
+    usuario = Usuario.query.get_or_404(usuario_id)
+    usuario.nome = request.form['nome']
+    usuario.email = request.form['email']
+    usuario.telefone = request.form['telefone']
+    db.session.commit()
+    return redirect(url_for('master_bp.listar_usuarios'))
+
+@master_bp.route('/master/usuarios/excluir/<int:usuario_id>', methods=['POST'])
+def excluir_usuario(usuario_id):
+    usuario = Usuario.query.get_or_404(usuario_id)
+    db.session.delete(usuario)
+    db.session.commit()
+    return redirect(url_for('master_bp.listar_usuarios'))
 
 # @master_bp.route('/master/cadastro/usuario', methods = ['GET','POST'])
 # @login_required
