@@ -1,72 +1,85 @@
 <!DOCTYPE html>
-<html lang="pt-Br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Veterinário</title>
+    
     <link rel="icon" href="../static/images/animais-de-estimacao.png" type="image/png">
+    
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap');
-    </style>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../static/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Winky+Sans:wght@300..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
 
-    <title>Cadastro Veterinário</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../static/styles.css">
 </head>
 <body>
 
-<div class="container">
-    <h1>Cadastro de Veterinário</h1>
+<div class="container mt-5">
+    <h1 class="mb-4">Cadastro de Veterinário</h1>
+    
     <form id="vetForm" action="#" method="POST" enctype="multipart/form-data">
         
         <!-- Informações Pessoais -->
-        <div class="section-title">Informações Pessoais</div>
-        <div class="form-group">
-            <label for="nome">Nome completo</label>
-            <input type="text" id="nome" name="nome" required aria-label="Nome completo">
-            <div class="error" id="nomeError"></div>
+        <h4 class="mb-3">Informações Pessoais</h4>
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome completo</label>
+            <input type="text" class="form-control" id="nome" name="nome" required>
+            <div class="text-danger" id="nomeError"></div>
+        </div>
 
-            <label for="data-nascimento">Data de Nascimento</label>
-            <input type="date" id="data-nascimento" name="data-nascimento" required aria-label="Data de nascimento">
-            <div class="error" id="dataNascimentoError"></div>
+        <div class="mb-3">
+            <label for="data-nascimento" class="form-label">Data de Nascimento</label>
+            <input type="date" class="form-control" id="data-nascimento" name="data-nascimento" required>
+            <div class="text-danger" id="dataNascimentoError"></div>
+        </div>
 
-            <label for="sexo">Sexo</label>
-            <select id="sexo" name="sexo" required aria-label="Sexo">
+        <div class="mb-3">
+            <label for="sexo" class="form-label">Sexo</label>
+            <select class="form-select" id="sexo" name="sexo" required>
                 <option value="">Selecione</option>
                 <option value="masculino">Masculino</option>
                 <option value="feminino">Feminino</option>
                 <option value="outro">Outro</option>
             </select>
-            <div class="error" id="sexoError"></div>
+            <div class="text-danger" id="sexoError"></div>
+        </div>
 
-            <label for="estado-civil">Estado Civil</label>
-            <select id="estado-civil" name="estado-civil" required aria-label="Estado civil">
+        <div class="mb-3">
+            <label for="estado-civil" class="form-label">Estado Civil</label>
+            <select class="form-select" id="estado-civil" name="estado-civil" required>
                 <option value="">Selecione</option>
                 <option value="solteiro">Solteiro</option>
                 <option value="casado">Casado</option>
                 <option value="divorciado">Divorciado</option>
                 <option value="viuvo">Viúvo</option>
             </select>
-            <div class="error" id="estadoCivilError"></div>
+            <div class="text-danger" id="estadoCivilError"></div>
+        </div>
 
-            <label for="cpf">CPF</label>
-            <input type="number" id="cpf" name="cpf" required aria-label="CPF" maxlength="11">
-            <div class="error" id="cpfError"></div>
+        <div class="mb-3">
+            <label for="cpf" class="form-label">CPF</label>
+            <input type="text" class="form-control" id="cpf" name="cpf" maxlength="11" required>
+            <div class="text-danger" id="cpfError"></div>
         </div>
 
         <!-- Endereço -->
-        <div class="section-title">Endereço</div>
-        <div class="form-group">
-            <label for="endereco">Endereço completo</label>
-            <input type="text" id="endereco" name="endereco" required aria-label="Endereço">
+        <h4 class="mt-4 mb-3">Endereço</h4>
+        <div class="mb-3">
+            <label for="endereco" class="form-label">Endereço completo</label>
+            <input type="text" class="form-control" id="endereco" name="endereco" required>
         </div>
 
-        <!-- Estado -->
+       <!-- Estado -->
         <div class="section-title">Estado</div>
         <div class="form-group">
             <label for="estado">Selecione o Estado</label>
@@ -104,74 +117,95 @@
         </div>
 
         <!-- Contato -->
-        <div class="section-title">Contato</div>
-        <div class="form-group-2col">
-            <div>
-                <label for="telefone">Telefone de contato</label>
-                <input type="text" id="telefone" name="telefone" required aria-label="Telefone">
-                <div class="error" id="telefoneError"></div>
+        <h4 class="mt-4 mb-3">Contato</h4>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="telefone" class="form-label">Telefone de contato</label>
+                <input type="text" class="form-control" id="telefone" name="telefone" required>
+                <div class="text-danger" id="telefoneError"></div>
             </div>
-            <div>
-                <label for="email">E-mail</label>
-                <input type="email" id="email" name="email" required aria-label="E-mail">
-                <div class="error" id="emailError"></div>
+            <div class="col-md-6">
+                <label for="email" class="form-label">E-mail</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+                <div class="text-danger" id="emailError"></div>
             </div>
         </div>
 
-        <!-- Formação e Experiência -->
-        <div class="section-title">Formação e Experiência</div>
-        <div class="form-group">
-            <label for="instituicao">Instituição de Graduação</label>
-            <input type="text" id="instituicao" name="instituicao" required aria-label="Instituição de graduação">
+        <!-- Formação -->
+        <h4 class="mt-4 mb-3">Formação e Experiência</h4>
+        <div class="mb-3">
+            <label for="instituicao" class="form-label">Instituição de Graduação</label>
+            <input type="text" class="form-control" id="instituicao" name="instituicao" required>
+        </div>
 
-            <label for="ano-conclusao">Ano de Conclusão</label>
-            <input type="number" id="ano-conclusao" name="ano-conclusao" required aria-label="Ano de conclusão">
+        <div class="mb-3">
+            <label for="ano-conclusao" class="form-label">Ano de Conclusão</label>
+            <input type="text" class="form-control" id="ano-conclusao" name="ano-conclusao" maxlength="4" required>
+        </div>
 
-            <label for="crmv">Número do CRMV</label>
-            <input type="text" id="crmv" name="crmv" required aria-label="Número CRMV">
-            
-            <label for="especializacao">Especializações (Se houver)</label>
-            <input type="text" id="especializacao" name="especializacao" aria-label="Especializações">
+        <div class="mb-3">
+            <label for="crmv" class="form-label">Número do CRMV</label>
+            <input type="text" class="form-control" id="crmv" name="crmv" required>
+        </div>
 
-            <label for="experiencia">Experiência Profissional</label>
-            <textarea id="experiencia" name="experiencia" placeholder="Descreva sua experiência profissional" aria-label="Experiência profissional"></textarea>
+        <div class="mb-3">
+            <label for="especializacao" class="form-label">Especializações (Se houver)</label>
+            <input type="text" class="form-control" id="especializacao" name="especializacao">
+        </div>
+
+        <div class="mb-3">
+            <label for="experiencia" class="form-label">Experiência Profissional</label>
+            <textarea class="form-control" id="experiencia" name="experiencia" rows="4"></textarea>
         </div>
 
         <!-- Documentação -->
-        <div class="section-title">Documentação</div>
-        <div class="form-group">
-            <label for="rg">RG</label>
-            <input type="text" id="rg" name="rg" required aria-label="RG">
-            
-            <div class="file-input-group">
-                <label for="comprovante-endereco" class="file-label">Comprovante de Endereço</label>
-                <input type="file" id="comprovante-endereco" name="comprovante-endereco" accept=".jpg,.jpeg,.png,.pdf" required>
-            </div>
-            <div class="error" id="comprovanteEnderecoError"></div>
+        <h4 class="mt-4 mb-3">Documentação</h4>
+        <div class="mb-3">
+            <label for="rg" class="form-label">RG</label>
+            <input type="text" class="form-control" id="rg" name="rg" required>
+        </div>
 
-            <div class="file-input-group">
-                <label for="foto" class="file-label">Foto Profissional</label>
-                <input type="file" id="foto" name="foto" accept=".jpg,.jpeg,.png">
-            </div>
+        <div class="mb-3">
+            <label for="comprovante-endereco" class="form-label">Comprovante de Endereço</label>
+            <input type="file" class="form-control" id="comprovante-endereco" name="comprovante-endereco" accept=".jpg,.jpeg,.png,.pdf" required>
+            <div class="text-danger" id="comprovanteEnderecoError"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="foto" class="form-label">Foto Profissional</label>
+            <input type="file" class="form-control" id="foto" name="foto" accept=".jpg,.jpeg,.png">
         </div>
 
         <!-- Dados de Acesso -->
-        <div class="section-title">Dados de Acesso</div>
-        <div class="form-group">
-            <label for="usuario">Nome de usuário</label>
-            <input type="text" id="usuario" name="usuario" required aria-label="Nome de usuário">
-            
-            <label for="senha">Senha</label>
-            <input type="password" id="senha" name="senha" required aria-label="Senha">
-
-            <label for="confirmar-senha">Confirmar Senha</label>
-            <input type="password" id="confirmar-senha" name="confirmar-senha" required aria-label="Confirmar senha">
+        <h4 class="mt-4 mb-3">Dados de Acesso</h4>
+        <div class="mb-3">
+            <label for="usuario" class="form-label">Nome de usuário</label>
+            <input type="text" class="form-control" id="usuario" name="usuario" required>
         </div>
 
-        <!-- Botão de Cadastro -->
-        <div class="button-group">
-            <button type="submit">Cadastrar Veterinário</button>
+        <div class="mb-3">
+            <label for="senha" class="form-label">Senha</label>
+            <input type="password" class="form-control" id="senha" name="senha" required>
         </div>
+
+        <div class="mb-4">
+            <label for="confirmar-senha" class="form-label">Confirmar Senha</label>
+            <input type="password" class="form-control" id="confirmar-senha" name="confirmar-senha" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Cadastrar Veterinário</button>
     </form>
 </div>
 
+<div class="footer">
+            &copy; 2025. Todos os direitos reservados.
+        </div>
+
+
+    </main>
+    <script src="../static/main.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
