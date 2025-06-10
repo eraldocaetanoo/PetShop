@@ -92,6 +92,41 @@ class TipoServico(UserMixin, Base):
     preco = Column("preco", Float, nullable=False)
     observacoes = Column("observacoes", String(100), nullable=False)
 
+class Veterinario(UserMixin, Base):
+    __tablename__ = 'veterinario'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    # Informações Pessoais
+    nome = Column(String(100), nullable=False)
+    data_nascimento = Column(Date, nullable=False)
+    sexo = Column(String(20), nullable=False)
+    estado_civil = Column(String(20), nullable=False)
+    cpf = Column(String(11), unique=True, nullable=False)
+    rg = Column(String(20), unique=True, nullable=False)
+
+    # Endereço
+    endereco = Column(String(200), nullable=False)
+    estado = Column(String(100), nullable=False)  # ou String(2) se usar sigla do estado
+
+    # Contato
+    telefone = Column(String(20), nullable=False)
+    email = Column(String(100), unique=True, nullable=False)
+
+    # Formação e Experiência
+    instituicao = Column(String(100), nullable=False)
+    ano_conclusao = Column(String(4), nullable=False)
+    crmv = Column(String(50), unique=True, nullable=False)
+    especializacao = Column(String(100), nullable=True)
+    experiencia = Column(String(500), nullable=True)
+
+    # Documentação enviada
+    comprovante_endereco = Column(String(255), nullable=True)
+    foto = Column(String(255), nullable=True)
+
+    # Dados de Acesso
+    usuario = Column(String(30), unique=True, nullable=False)
+    senha = Column(String(255), nullable=False)
+
+
 
 # Criando as tabelas no banco de dados (caso não existam)
 Base.metadata.create_all(bind=engine)
