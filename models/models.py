@@ -1,87 +1,97 @@
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, Integer, String, Float, Date, ForeignKey
+from sqlalchemy.orm import relationship
 from flask_login import UserMixin
 
-db = SQLAlchemy()
+from models.conexao import *
 
-class Master(UserMixin, db.Model):
+
+
+class Master(UserMixin, Base):
     __tablename__ = 'master'
-    id = db.Column(db.Integer, primary_key=True, nullable=False)
-    nome = db.Column(db.String(100), unique=True, nullable=False)
-    login = db.Column(db.String(30), unique=True, nullable=False)
-    senha = db.Column(db.String(), nullable=False)
+    id = Column("id", Integer, primary_key=True, nullable=False, autoincrement=True)
+    nome = Column("nome", String(100), unique=True, nullable=False)
+    login = Column("login", String(30), unique=True, nullable=False)
+    senha = Column("senha", String(255), nullable=False)
 
-class Usuario(UserMixin, db.Model):
+class Usuario(UserMixin, Base):
     __tablename__ = 'usuario'
-    id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), nullable=False)
-    telefone = db.Column(db.String(20), nullable=False)
-    login = db.Column(db.String(30), unique=True, nullable=False)
-    senha = db.Column(db.String(), nullable=False)
+    id = Column("id", Integer, primary_key=True)
+    nome = Column("nome", String(100), nullable=False)
+    email = Column("email", String(100), nullable=False)
+    telefone = Column("telefone", String(20), nullable=False)
+    login = Column("login", String(30), unique=True, nullable=False)
+    senha = Column("senha", String(255), nullable=False)
 
-class Cliente(UserMixin, db.Model):
+class Cliente(UserMixin, Base):
     __tablename__ = 'cliente'
-    id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(100), nullable=False)
-    genero = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), nullable=False)
-    telefone = db.Column(db.String(20), nullable=False)
+    id = Column("id", Integer, primary_key=True)
+    nome = Column("nome", String(100), nullable=False)
+    genero = Column("genero", String(100), nullable=False)
+    email = Column("email", String(100), nullable=False)
+    telefone = Column("telefone", String(20), nullable=False)
 
     # Endereço separado
-    rua = db.Column(db.String(100), nullable=False)
-    numero = db.Column(db.String(20), nullable=False)
-    bairro = db.Column(db.String(100), nullable=False)
-    cidade = db.Column(db.String(100), nullable=False)
-    estado = db.Column(db.String(100), nullable=False)
-    cep = db.Column(db.String(20), nullable=False)
+    rua = Column("rua", String(100), nullable=False)
+    numero = Column("numero", String(20), nullable=False)
+    bairro = Column("bairro", String(100), nullable=False)
+    cidade = Column("cidade", String(100), nullable=False)
+    estado = Column("estado", String(100), nullable=False)
+    cep = Column("cep", String(20), nullable=False)
 
-class Animais(UserMixin, db.Model):
+class Animais(UserMixin, Base):
     __tablename__ = 'animais'
-    id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(100), nullable=False)
-    especie = db.Column(db.String(100), nullable=False)
-    raca = db.Column(db.String(100), nullable=False)
-    idade = db.Column(db.Integer, nullable=True) 
-    sexo = db.Column(db.String(100), nullable=False)
-    cor = db.Column(db.String(100), nullable=False)
-    peso = db.Column(db.Float, nullable=False)
-    responsavel_id = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=False)
-    responsavel = db.relationship('Cliente', backref='animais')
-    observacoes = db.Column(db.String(100), nullable=False)
+    id = Column("id", Integer, primary_key=True)
+    nome = Column("nome", String(100), nullable=False)
+    especie = Column("especie", String(100), nullable=False)
+    raca = Column("raca", String(100), nullable=False)
+    idade = Column("idade", Integer, nullable=True) 
+    sexo = Column("sexo", String(100), nullable=False)
+    cor = Column("cor", String(100), nullable=False)
+    peso = Column("peso", Float, nullable=False)
+    responsavel_id = Column("responsavel_id", Integer, ForeignKey('cliente.id'), nullable=False)
+    responsavel = relationship('Cliente', backref='animais')
+    observacoes = Column("observacoes", String(100), nullable=False)
 
-class Veterinarios(UserMixin, db.Model):
+class Veterinarios(UserMixin, Base):
     __tablename__ = 'veterinarios'
-    id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(100), nullable=False)
-    data_nascimento = db.Column(db.Date, nullable=True)
-    genero = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), nullable=False)
-    telefone = db.Column(db.String(20), nullable=False)
-    formacao = db.Column(db.String(100), nullable=False)
-    especializacao = db.Column(db.String(100), nullable=False)
-    observacoes = db.Column(db.String(100), nullable=False)
-    login = db.Column(db.String(30), unique=True, nullable=False)
-    senha = db.Column(db.String(), nullable=False)
+    id = Column("id", Integer, primary_key=True)
+    nome = Column("nome", String(100), nullable=False)
+    data_nascimento = Column("data_nascimento", Date, nullable=True)
+    genero = Column("genero", String(100), nullable=False)
+    email = Column("email", String(100), nullable=False)
+    telefone = Column("telefone", String(20), nullable=False)
+    formacao = Column("formacao", String(100), nullable=False)
+    especializacao = Column("especializacao", String(100), nullable=False)
+    observacoes = Column("observacoes", String(100), nullable=False)
+    login = Column("login", String(30), unique=True, nullable=False)
+    senha = Column("senha", String(255), nullable=False)
 
-class Prontuario(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(100), nullable=False)
-    responsavel = db.Column(db.String(100), nullable=False)
-    servicos_realizados = db.Column(db.String(100), nullable=False)
+class Prontuario(UserMixin, Base):
+    __tablename__ = 'prontuario'
+    id = Column("id", Integer, primary_key=True)
+    nome = Column("nome", String(100), nullable=False)
+    responsavel = Column("responsavel", String(100), nullable=False)
+    servicos_realizados = Column("servicos_realizados", String(100), nullable=False)
 
-class ServicosRealizados(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    servicos_realizados = db.Column(db.String(100), nullable=False)
-    nome_animal = db.Column(db.String(100), nullable=False)
-    veterinario = db.Column(db.String(100), nullable=False)
-    data = db.Column(db.Date, nullable=True)
-    valor = db.Column(db.Float, nullable=False)
-    tipo_servico = db.Column(db.String(100), nullable=False)
+class ServicosRealizados(UserMixin, Base):
+    __tablename__ = 'servicos_realizados'
+    id = Column("id", Integer, primary_key=True)
+    servicos_realizados = Column("servicos_realizados", String(100), nullable=False)
+    nome_animal = Column("nome_animal", String(100), nullable=False)
+    veterinario = Column("veterinario", String(100), nullable=False)
+    data = Column("data", Date, nullable=True)
+    valor = Column("valor", Float, nullable=False)
+    tipo_servico = Column("tipo_servico", String(100), nullable=False)
 
-class TipoServico(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    nome_servico = db.Column(db.String(100), nullable=False)
-    descricao = db.Column(db.String(100), nullable=False)
-    duracao = db.Column(db.String(100), nullable=False)
-    preco = db.Column(db.Float, nullable=False)
-    observacoes = db.Column(db.String(100), nullable=False)
+class TipoServico(UserMixin, Base):
+    __tablename__ = 'tipo_servico'
+    id = Column("id", Integer, primary_key=True)
+    nome_servico = Column("nome_servico", String(100), nullable=False)
+    descricao = Column("descricao", String(100), nullable=False)
+    duracao = Column("duracao", String(100), nullable=False)
+    preco = Column("preco", Float, nullable=False)
+    observacoes = Column("observacoes", String(100), nullable=False)
+
+
+# Criando as tabelas no banco de dados (caso não existam)
+Base.metadata.create_all(bind=engine)

@@ -1,12 +1,21 @@
-from flask import render_template, request, redirect, url_for, session, abort, flash
-from models.models import db, Master, Usuario, Cliente, Animais, TipoServico
+from flask import render_template, request, redirect, url_for, session, abort, flash, send_file
 from werkzeug.security import generate_password_hash
 from flask_login import LoginManager
 from functools import wraps
+from models.models import *
+from sqlalchemy.orm import sessionmaker
+from xhtml2pdf import pisa
+from io import BytesIO
+from datetime import datetime
 
 
+# Configura a sessão local
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# Inicialização do LoginManager
 login_manager = LoginManager()
 
+# Decorator para tipo de usuário
 def tipo_usuario_requerido(tipo):
     def wrapper(func):
         @wraps(func)
@@ -17,22 +26,20 @@ def tipo_usuario_requerido(tipo):
         return decorated_view
     return wrapper
 
-
-
-
+# Verifica se login já existe
 def login_existe(login):
-    if Master.query.filter_by(login=login).first():
-        return True
-    if Usuario.query.filter_by(login=login).first():
-        return True
-    
+    with SessionLocal() as db:
+        if db.query(Master).filter_by(login=login).first():
+            return True
+        if db.query(Usuario).filter_by(login=login).first():
+            return True
     return False
 
-
-
+# Cadastro de usuário
 def cadastrar_usuario(logado_tipo):
     if request.method == 'GET':
         return render_template('usuario/cadastroUsuario.html')
+
     elif request.method == 'POST':
         nome = request.form['usuarioNome']
         login = request.form['usuarioLogin']
@@ -45,108 +52,137 @@ def cadastrar_usuario(logado_tipo):
             return render_template('usuario/cadastroUsuario.html', erro="Login já em uso.")
 
         usuario = Usuario(nome=nome, login=login, senha=senha_hash, email=email, telefone=telefone)
-        db.session.add(usuario)
-        db.session.commit()
+        with SessionLocal() as db:
+            db.add(usuario)
+            db.commit()
+
         flash("Cadastro realizado com sucesso!", "success")
-        # Redireciona de volta para a página certa dependendo do tipo de usuário logado
-        if logado_tipo == 'master':
-            return redirect(url_for('master_bp.cadastro_usuario'))
-        if logado_tipo == 'usuario':
-            return redirect(url_for('usuario_bp.cadastro_usuario'))
+        return redirect(url_for(f'{logado_tipo}_bp.cadastro_usuario'))
 
-
-
-
+# Cadastro de cliente
 def cadastrar_cliente(logado_tipo):
     if request.method == 'GET':
         return render_template('cliente/cadastroCliente.html')
+
     elif request.method == 'POST':
-        nome = request.form['clienteNome']
-        genero = request.form['clienteGenero']
-        email = request.form['clienteEmail']
-        telefone = request.form['clienteTelefone']
-        rua = request.form['clienteLogradouro']
-        numero = request.form['clienteNumero']
-        bairro = request.form['clienteBairro']
-        cidade = request.form['clienteCidade']
-        estado = request.form['clienteEstado']
-        cep = request.form['clienteCep']
-        
-
-        cliente = Cliente(nome=nome, genero=genero, email=email, telefone=telefone, rua=rua, numero=numero, bairro=bairro, cidade=cidade, estado=estado, cep=cep)
-        db.session.add(cliente)
-        db.session.commit()
-
+        cliente = Cliente(
+            nome=request.form['clienteNome'],
+            genero=request.form['clienteGenero'],
+            email=request.form['clienteEmail'],
+            telefone=request.form['clienteTelefone'],
+            rua=request.form['clienteLogradouro'],
+            numero=request.form['clienteNumero'],
+            bairro=request.form['clienteBairro'],
+            cidade=request.form['clienteCidade'],
+            estado=request.form['clienteEstado'],
+            cep=request.form['clienteCep']
+        )
+        with SessionLocal() as db:
+            db.add(cliente)
+            db.commit()
 
         flash("Cadastro realizado com sucesso!", "success")
-        # Redireciona de volta para a página certa dependendo do tipo de usuário logado
-        if logado_tipo == 'master':
-            return redirect(url_for('master_bp.cadastro_cliente'))
-        if logado_tipo == 'usuario':
-            return redirect(url_for('usuario_bp.cadastro_cliente'))
+        return redirect(url_for(f'{logado_tipo}_bp.cadastro_cliente'))
 
-
-
+# Cadastro de animal
 def cadastrar_animal(logado_tipo):
     if request.method == 'GET':
-        clientes = Cliente.query.all()
-        return render_template('animal/cadastroAnimal.html', clientes=clientes)
+        with SessionLocal() as db:
+            clientes = db.query(Cliente).all()
+            return render_template('animal/cadastroAnimal.html', clientes=clientes)
+
     elif request.method == 'POST':
-        nome = request.form['animalNome']
-        especie = request.form['animalEspecie']
-        raca = request.form['animalRaca']
-        
         anos = int(request.form['animalIdadeAnos'] or 0)
         meses = int(request.form['animalIdadeMeses'] or 0)
         idade = anos * 12 + meses
 
-        sexo = request.form['animalSexo']
-        cor = request.form['animalCor']
-        peso = float(request.form['animalPeso'] or 0.0)
-        responsavel_id = request.form['animalResponsavel']
-        observacoes = request.form['animalObservacoes']
-        
+        animal = Animais(
+            nome=request.form['animalNome'],
+            especie=request.form['animalEspecie'],
+            raca=request.form['animalRaca'],
+            idade=idade,
+            sexo=request.form['animalSexo'],
+            cor=request.form['animalCor'],
+            peso=float(request.form['animalPeso'] or 0.0),
+            responsavel_id=request.form['animalResponsavel'],
+            observacoes=request.form['animalObservacoes']
+        )
 
-        animal = Animais(nome=nome, especie=especie, raca=raca, idade=idade, sexo=sexo,cor=cor, peso=peso, responsavel_id=responsavel_id, observacoes=observacoes)
-        db.session.add(animal)
-        db.session.commit()
+        with SessionLocal() as db:
+            db.add(animal)
+            db.commit()
 
-        
         flash("Cadastro realizado com sucesso!", "success")
-        # Redireciona de volta para a página certa dependendo do tipo de usuário logado
-        if logado_tipo == 'master':
-            return redirect(url_for('master_bp.cadastro_animal'))
-        if logado_tipo == 'usuario':
-            return redirect(url_for('usuario_bp.cadastro_animal'))
+        return redirect(url_for(f'{logado_tipo}_bp.cadastro_animal'))
 
-
+# Cadastro de tipo de serviço
 def cadastrar_tipo_servico(logado_tipo):
     if request.method == 'GET':
         return render_template('servicos/cadastroTipoServico.html')
+
     elif request.method == 'POST':
-        nome_servico = request.form['servicoNome']
-        descricao = request.form['servicoDescricao']
-        duracao = request.form['servicoDuracao']
-        # Exemplo: 'R$ 1.234,56' → 1234.56
         preco_str = request.form['servicoPreco']
         preco_limpo = preco_str.replace('R$', '').replace('.', '').replace(',', '.').strip()
         preco = float(preco_limpo)
-        observacoes = request.form['servicoObservacoes']
-        
 
-        tipo_servico = TipoServico(nome_servico=nome_servico, descricao=descricao, duracao=duracao, preco=preco, observacoes=observacoes)
-        db.session.add(tipo_servico)
-        db.session.commit()
+        tipo_servico = TipoServico(
+            nome_servico=request.form['servicoNome'],
+            descricao=request.form['servicoDescricao'],
+            duracao=request.form['servicoDuracao'],
+            preco=preco,
+            observacoes=request.form['servicoObservacoes']
+        )
 
+        with SessionLocal() as db:
+            db.add(tipo_servico)
+            db.commit()
 
         flash("Cadastro realizado com sucesso!", "success")
-        # Redireciona de volta para a página certa dependendo do tipo de usuário logado
-        if logado_tipo == 'master':
-            return redirect(url_for('master_bp.cadastro_tipo_servico'))
-        if logado_tipo == 'usuario':
-            return redirect(url_for('usuario_bp.cadastro_tipo_servico'))
+        return redirect(url_for(f'{logado_tipo}_bp.cadastro_tipo_servico'))
 
+# Retorna lista de usuários
+def obter_cadastros(tipo):
+    with SessionLocal() as db:
+        return db.query(tipo).all()
 
+# Mantém a função de renderizar HTML normalmente
 def renderizar_lista_usuarios():
-    usuarios = Usuario.query.all()
+    usuarios = obter_cadastros(Usuario)
     return render_template('master/listar_usuarios.html', usuarios=usuarios)
+
+def renderizar_lista_clientes():
+    clientes = obter_cadastros(Cliente)
+    return render_template('cliente/listar_clientes.html', clientes=clientes)
+
+
+def gerar_pdf_html(template_path, context):
+    html = render_template(template_path, **context)
+    resultado = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("utf-8")), resultado)
+
+    if not pdf.err:
+        resultado.seek(0)
+        return resultado
+    return None
+
+    
+
+def gerar_relatorio(tipo):
+    with SessionLocal() as db:
+        context = {
+            "current_date": datetime.now().strftime("%d/%m/%Y %H:%M")
+        }
+
+        if tipo == "usuario":
+            context["usuario"] = obter_cadastros(Usuario)
+            template = "master/relatorio_usuarios.html"
+            nome_arquivo = "relatorio_usuarios.pdf"
+        elif tipo == "cliente":
+            context["cliente"] = obter_cadastros(Cliente)
+            template = "cliente/relatorio_clientes.html"  #Tem que alterar
+            nome_arquivo = "relatorio_clientes.pdf"
+        else:
+            return None, "Tipo de relatório inválido"
+
+        pdf_file = gerar_pdf_html(template, context)
+        return pdf_file, nome_arquivo

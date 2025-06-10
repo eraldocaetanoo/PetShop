@@ -53,6 +53,18 @@
                             <i class="fa-solid fa-house me-3"></i>Início
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center"
+                            href="{% if session['tipo_usuario'] == 'usuario' %}
+                        {{ url_for('usuario_bp.cadastros_realizados') }}
+                    {% elif session['tipo_usuario'] == 'master' %}
+                        {{ url_for('master_bp.cadastros_realizados') }}
+                    {% else %}
+                        #
+                    {% endif %}">
+                            <i class="fa-solid fa-user me-3"></i>Acessar cadastros realizados
+                        </a>
+                    </li>
                     {% if session['tipo_usuario'] == 'master' %}
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="{{ url_for('master_bp.cadastro_usuario') }}">

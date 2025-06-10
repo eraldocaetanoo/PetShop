@@ -295,3 +295,18 @@ document.addEventListener('DOMContentLoaded', function () {
     e.target.value = e.target.value.replace(",", ".");
   });
 });
+
+
+// Campo/resultados de pesquisa
+
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('pesquisaUsuarios').addEventListener('input', function () {
+    const searchTerm = this.value.toLowerCase();
+    const rows = document.querySelectorAll('#tabelaUsuarios tbody tr');
+
+    rows.forEach(row => {
+        const rowText = row.innerText.toLowerCase();
+        row.style.display = rowText.includes(searchTerm) ? '' : 'none';
+    });
+  }); 
+});

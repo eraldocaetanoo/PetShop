@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        @page {
+            size: A4;
+            margin: 100px 50px 50px 50px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            position: fixed;
+            top: -80px;
+            left: 0;
+            right: 0;
+            height: 60px;
+            text-align: center;
+            line-height: 35px;
+            border-bottom: 1px solid #000;
+        }
+
+        .info {
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding-top: 4px;
+            padding-left: 2px;
+            vertical-align: middle; /* Centraliza verticalmente */
+        }
+
+        th {
+            background: #eee;
+        }
+
+        tbody td {
+            vertical-align: middle;
+        }
+    </style>
+    <title>Relatório</title>
+</head>
+
+<body>
+
+    <header>
+        <h2>Relatório de Usuários - Sistema PetShop</h2>
+    </header>
+
+    <div class="info">
+        <p>Emitido em: {{ current_date }}</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 40px;">#</th>
+                <th>Nome</th>
+                <th>Login</th>
+                <th>Email</th>
+                <th>Telefone</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in usuario %}
+            <tr>
+                <td style="text-align: center; padding-left: 0;">{{ loop.index }}</td>
+                <td>{{ u.nome }}</td>
+                <td>{{ u.login }}</td>
+                <td>{{ u.email }}</td>
+                <td>{{ u.telefone }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

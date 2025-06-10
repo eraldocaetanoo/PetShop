@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../static/images/animais-de-estimacao.png" type="image/png">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -17,18 +17,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="../../static/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="icon" href="../../static/images/animais-de-estimacao.png" type="image/png">
-    <!-- Importando o Bootstrap JS para a funcionalidade do formulário 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
 
-
-
-    <title>Cadastro do Animal</title>
+    <link rel="stylesheet" href="../static/styles.css">
+    <title>Home</title>
 </head>
 
 
@@ -36,6 +28,7 @@
 <body>
     <header class="fixed-top" id="Header">
         <div id="container2">
+
             <!-- Menu suspenso -->
             <div class="dropdown" id="menuDropdown" tabindex="0" role="button" aria-haspopup="true"
                 aria-expanded="false">
@@ -65,7 +58,7 @@
                     {% endif %}">
                             <i class="fa-solid fa-user me-3"></i>Acessar cadastros realizados
                         </a>
-                    </li>
+                    </li>                    
                     {% if session['tipo_usuario'] == 'master' %}
                     <li>
                         <a class="dropdown-item d-flex align-items-center"
@@ -127,12 +120,9 @@
 
             <div class="titulo">PetShop</div>
             <div><img class="imgPetHouse" src="../../static/images/pet-house.png" alt="image"></div>
-
         </div>
-
-
-
         <div class="usuarioSessao">
+
             Login da sessão: ({{current_user.login}}) <a href="#" class="sair"
                 onclick="document.getElementById('logout-form').submit();" data-bs-toggle="tooltip"
                 title="Logout da sessão">Sair</a>
@@ -147,124 +137,63 @@
                     <input type="checkbox" id="toggleTheme">
                     <span class="slider round"></span>
                 </label>
-                <i id="themeIcon" class="fas fa-sun theme-icon"></i> <!-- Ícone inicial -->
+                <i id="themeIcon" class="fas fa-moon theme-icon"></i> <!-- Ícone inicial -->
             </div>
-        </div>
 
+        </div>
     </header>
+    <main class="container">
+        <h2>Cadastros realizados</h2>
+        <div class="container-box text-center" id="opcoes">
+            <div class="row g-3">
 
-    <main class="container paddingBottom50px">
 
-        <h2>Cadastro do Animal</h2>
-        <div class="container-box">
+                <div class="col-md-6 mx-auto">
+                    <a href="{{ url_for('usuario_bp.listar_usuario_clientes') }}">
+                        <button class="btn btn-primary btn-custom"><i class="fas fa-users"></i>Clientes cadastrados</button>
+                    </a>
+                </div>
 
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            {% for category, message in messages %}
-            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                <div class="col-md-6 mx-auto">
+                    <a href="{{ url_for('usuario_bp.cadastro_animal') }}">
+                        <button class="btn btn-primary btn-custom"><i class="fas fa-dog"></i>Animais
+                            cadastrados</button>
+                    </a>
+                </div>
+
+                <div class="col-md-6 mx-auto">
+                    <a href="#">
+                        <button class="btn btn-primary btn-custom"><i class="fas fa-user-md"></i>Veterinários
+                            cadastrados</button>
+                    </a>
+                </div>
+
+                <div class="col-md-6 mx-auto">
+                    <a href="#">
+                        <button class="btn btn-primary btn-custom"><i class="fas fa-file-medical"></i>Prontuários
+                            cadastrados</button>
+                    </a>
+                </div>
+
+                <div class="col-md-6 mx-auto">
+                    <a href="#">
+                        <button class="btn btn-primary btn-custom"><i class="fas fa-briefcase-medical"></i>Serviços
+                            cadastrados</button>
+                    </a>
+                </div>
+
+                <div class="col-md-6 mx-auto">
+                    <a href="{{ url_for('usuario_bp.cadastro_tipo_servico') }}">
+                        <button class="btn btn-primary btn-custom"><i class="fas fa-paw"></i>Tipo de Serviço cadastrados</button>
+                    </a>
+                </div>
             </div>
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
-            <form action="" method="POST">
-
-                <div class="row">
-                    <div class="form-group col-md-4">
-                        <label for="nome">Nome do animal</label>
-                        <input type="text" id="nome" name="animalNome" class="form-control" required
-                            placeholder="Nome do animal">
-                    </div>
-
-                    <div class="form-group col-md-4">
-                        <label for="especie">Espécie</label>
-                        <select id="especie" name="animalEspecie" class="form-select custom-select-cor" required>
-                            <option value="">Selecione a espécie</option>
-                            <option value="Cachorro">Cachorro</option>
-                            <option value="Gato">Gato</option>
-                            <option value="Pássaro">Pássaro</option>
-                            <option value="Roedor">Roedor</option>
-                            <option value="Réptil">Réptil</option>
-                            <option value="Peixe">Peixe</option>
-                            <option value="Outro">Outro</option>
-                        </select>
-                    </div>
-
-
-                    <div class="form-group col-md-4">
-                        <label for="raca">Raça</label>
-                        <select id="raca" name="animalRaca" class="form-select custom-select-cor" required>
-                            <option value="">Selecione a raça</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-3">
-                        <label for="idade">Idade</label>
-                        <div class="d-flex gap-2">
-                            <input type="number" id="animalIdadeAnos" name="animalIdadeAnos" class="form-control"
-                                min="0" placeholder="Anos" required>
-                            <input type="number" id="animalIdadeMeses" name="animalIdadeMeses" class="form-control"
-                                min="0" max="11" placeholder="Meses" required>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="sexo">Sexo</label>
-                        <select class="form-select custom-select-cor" id="sexo" name="animalSexo" required>
-                            <option value="">Selecione o sexo</option>
-                            <option value="Macho">Macho</option>
-                            <option value="Fêmea">Fêmea</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="cor">Cor</label>
-                        <input type="text" id="cor" name="animalCor" class="form-control" required
-                            placeholder="Cor do animal">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="peso">Peso (kg)</label>
-                        <input type="number" id="peso" name="animalPeso" class="form-control" step="0.01" min="0"
-                            required placeholder="Ex: 4,5">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label for="animalResponsavel">Responsável</label>
-                        <select class="form-select custom-select-cor" id="animalResponsavel" name="animalResponsavel"
-                            required>
-                            <option value="">Selecione o responsável</option>
-                            {% for cliente in clientes %}
-                            <option value="{{ cliente.id }}">{{ cliente.nome }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group col-md-12">
-                        <label for="observacoes">Observações</label>
-                        <textarea id="observacoes" name="animalObservacoes" class="form-control" rows="4"
-                            placeholder="Se necessário, faça observações"></textarea>
-                    </div>
-                </div>
-
-
-
-                <div id="divButtonCadastrar" style="padding-top: 20px;">
-
-                    <button type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
-                </div>
-
-            </form>
         </div>
-
         <div class="footer">
             &copy; 2025. Todos os direitos reservados.
         </div>
 
     </main>
-
 
     <script src="../../static/main.js"></script>
 </body>

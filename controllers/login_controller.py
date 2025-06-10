@@ -1,14 +1,14 @@
-
 from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
 from flask_login import login_user, login_required, logout_user
-from controllers.utils.utils import login_manager, login_existe
+from controllers.utils.utils import login_manager, login_existe, SessionLocal
 from models.models import Master, Usuario
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from sqlalchemy.orm import scoped_session
 
 login_bp = Blueprint('login_bp', __name__, template_folder='templates')
 
-
+# Cria sessão segura com escopo de thread (boa prática com Flask)
+db_session = scoped_session(SessionLocal)
 
 
 @login_bp.route('/', methods=['GET', 'POST'])
@@ -17,25 +17,27 @@ def login():
         return render_template('login.html')
 
     elif request.method == 'POST':
-        login = request.form['login']
-        senha = request.form['senha']
+        login_input = request.form['login']
+        senha_input = request.form['senha']
 
-        # Tenta encontrar em cada tipo de usuário
-        master = Master.query.filter_by(login=login).first()
-        if master and check_password_hash(master.senha, senha):
-            login_user(master)
-            session['tipo_usuario'] = 'master'
-            return redirect(url_for('master_bp.master'))
+        db = SessionLocal()
+        try:
+            # Verifica Master
+            master = db.query(Master).filter_by(login=login_input).first()
+            if master and check_password_hash(master.senha, senha_input):
+                login_user(master)
+                session['tipo_usuario'] = 'master'
+                return redirect(url_for('master_bp.master'))
 
-        usuario = Usuario.query.filter_by(login=login).first()
-        if usuario and check_password_hash(usuario.senha, senha):
-            login_user(usuario)
-            session['tipo_usuario'] = 'usuario'
-            return redirect(url_for('usuario_bp.usuario'))
+            # Verifica Usuario
+            usuario = db.query(Usuario).filter_by(login=login_input).first()
+            if usuario and check_password_hash(usuario.senha, senha_input):
+                login_user(usuario)
+                session['tipo_usuario'] = 'usuario'
+                return redirect(url_for('usuario_bp.usuario'))
 
-        # Pode repetir o mesmo padrão para Cliente, Veterinario, etc.
-        # cliente = Cliente.query.filter_by(login=login).first()
-        # ...
+        finally:
+            db.close()
 
         erro = "Login ou senha inválidos"
         return render_template('login.html', erro=erro)
@@ -44,18 +46,17 @@ def login():
 @login_manager.user_loader
 def user_loader(user_id):
     tipo = session.get('tipo_usuario')
-
-    if tipo == 'master':
-        return Master.query.get(int(user_id))
-    elif tipo == 'usuario':
-        return Usuario.query.get(int(user_id))
-    # elif tipo == 'cliente':
-    #     return Cliente.query.get(int(user_id))
-
+    db = SessionLocal()
+    try:
+        if tipo == 'master':
+            return db.get(Master, int(user_id))
+        elif tipo == 'usuario':
+            return db.get(Usuario, int(user_id))
+        # elif tipo == 'cliente':
+        #     return db.get(Cliente, int(user_id))
+    finally:
+        db.close()
     return None
-
-
-#faltam os outros
 
 
 @login_bp.route('/verificar_login', methods=['POST'])
@@ -74,8 +75,5 @@ def verificar_login():
 @login_required
 def logout():
     logout_user()
-    session.clear()  # Limpa o tipo do usuário e dados de sessão
+    session.clear()  # Limpa tipo de usuário e demais dados da sessão
     return redirect(url_for('login_bp.login'))
-
-
-

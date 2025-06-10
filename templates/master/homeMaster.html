@@ -21,7 +21,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="../../static/styles.css">
-    <script src="../../static/main.js"></script>
+
 
     <title>Home</title>
 </head>
@@ -50,19 +50,23 @@
                             <i class="fa-solid fa-house me-3"></i>Início
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center"
+                            href="{% if session['tipo_usuario'] == 'usuario' %}
+                        {{ url_for('usuario_bp.cadastros_realizados') }}
+                    {% elif session['tipo_usuario'] == 'master' %}
+                        {{ url_for('master_bp.cadastros_realizados') }}
+                    {% else %}
+                        #
+                    {% endif %}">
+                            <i class="fa-solid fa-user me-3"></i>Acessar cadastros realizados
+                        </a>
+                    </li>
                     {% if session['tipo_usuario'] == 'master' %}
                     <li>
                         <a class="dropdown-item d-flex align-items-center"
                             href="{{ url_for('master_bp.cadastro_usuario') }}">
                             <i class="fa-solid fa-user me-3"></i>Cadastro de usuários
-                        </a>
-                    </li>
-                    {% endif %}
-                    {% if session['tipo_usuario'] == 'master' %}
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center"
-                            href="{{ url_for('master_bp.listar_usuarios') }}">
-                            <i class="fa-solid fa-user me-3"></i>Listar usuários
                         </a>
                     </li>
                     {% endif %}
@@ -204,6 +208,7 @@
         </div>
 
     </main>
+    <script src="../../static/main.js"></script>
 </body>
 
 </html>
